@@ -9,6 +9,7 @@ import android.graphics.Bitmap
 import android.graphics.pdf.PdfRenderer
 import android.media.AudioManager
 import android.net.Uri
+import android.opengl.Visibility
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.ParcelFileDescriptor
@@ -20,6 +21,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_training.*
 import java.io.File
@@ -40,10 +42,16 @@ class TrainingActivity : AppCompatActivity() {
     @SuppressLint("UseSparseArrays")
     var TimePerSlide = HashMap <Int, Long>()
 
-    //private var PresentEntries = mutableMapOf<Int,Float?>()
     private var PresentEntries = HashMap<Int,Float?>()
     private var curPageNum = 1
     private var curText = ""
+
+    private var mSpeechRecognizer:SpeechRecognizer? = null
+    private var mSpeechRecognizerIntent: Intent? = null
+    private var mBufferSpeechRecognizer: SpeechRecognizer? = null
+    private var mBufferSpeechRecognizerIntent: Intent? = null
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,16 +60,18 @@ class TrainingActivity : AppCompatActivity() {
         var time = intent.getLongExtra(TIME_ALLOTTED_FOR_TRAINING, 0)
 
         AddPermission()
-        muteSound() // mute для того, чтобы не было слышно звуков speech recognizer
+        //muteSound() // mute sound, for unmute use unmuteSound()
 
-        val mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this)
-        val mSpeechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-        mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+        //init main recognizer
+        mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this)
+
+        mSpeechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        mSpeechRecognizerIntent!!.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-        mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,
+        mSpeechRecognizerIntent!!.putExtra(RecognizerIntent.EXTRA_LANGUAGE,
                 Locale.getDefault())
 
-        mSpeechRecognizer.setRecognitionListener(object : RecognitionListener {
+        mSpeechRecognizer!!.setRecognitionListener(object : RecognitionListener {
             override fun onReadyForSpeech(bundle: Bundle) {
 
             }
@@ -79,10 +89,12 @@ class TrainingActivity : AppCompatActivity() {
             }
 
             override fun onEndOfSpeech() {
-
+                mBufferSpeechRecognizer!!.startListening(mBufferSpeechRecognizerIntent)
             }
 
             override fun onError(i: Int) {
+                //mBufferSpeechRecognizer!!.startListening(mBufferSpeechRecognizerIntent)
+                Log.d("speechT", "MAIN RECOGNIZER ERROR")
             }
 
             override fun onResults(bundle: Bundle) {
@@ -90,7 +102,7 @@ class TrainingActivity : AppCompatActivity() {
                         .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
 
                 if (matches != null) {
-                    curText = matches[0]
+                    curText += matches[0]
                 }
             }
 
@@ -103,7 +115,60 @@ class TrainingActivity : AppCompatActivity() {
             }
         })
 
-        mSpeechRecognizer.startListening(mSpeechRecognizerIntent)
+        //init buffer recognizer
+        mBufferSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this)
+
+        mBufferSpeechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        mBufferSpeechRecognizerIntent!!.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        mBufferSpeechRecognizerIntent!!.putExtra(RecognizerIntent.EXTRA_LANGUAGE,
+                Locale.getDefault())
+
+        mBufferSpeechRecognizer!!.setRecognitionListener(object : RecognitionListener {
+            override fun onReadyForSpeech(bundle: Bundle) {
+
+            }
+
+            override fun onBeginningOfSpeech() {
+
+            }
+
+            override fun onRmsChanged(v: Float) {
+
+            }
+
+            override fun onBufferReceived(bytes: ByteArray) {
+
+            }
+
+            override fun onEndOfSpeech() {
+                mSpeechRecognizer!!.startListening(mSpeechRecognizerIntent)
+            }
+
+            override fun onError(i: Int) {
+                Log.d("speechT", "BUFFER RECOGNIZER ERROR")
+            }
+
+            override fun onResults(bundle: Bundle) {
+                val matches = bundle
+                        .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+
+                if (matches != null) {
+                    curText += matches[0]
+                }
+            }
+
+            override fun onPartialResults(bundle: Bundle) {
+
+            }
+
+            override fun onEvent(i: Int, bundle: Bundle) {
+
+            }
+        })
+
+
+        mSpeechRecognizer!!.startListening(mSpeechRecognizerIntent)
 
         finish.isEnabled = false
 
@@ -122,8 +187,10 @@ class TrainingActivity : AppCompatActivity() {
 
                 time = min.toLong()*60 + sec.toLong()
 
-                mSpeechRecognizer.stopListening()
-                mSpeechRecognizer.startListening(mSpeechRecognizerIntent)
+                mSpeechRecognizer!!.stopListening()
+                mBufferSpeechRecognizer!!.stopListening()
+                mSpeechRecognizer!!.startListening(mSpeechRecognizerIntent)
+
 
                 val SlideReadSpeed: Float
                 if (curText == "")
@@ -139,6 +206,7 @@ class TrainingActivity : AppCompatActivity() {
                 curText = ""
             }
         }
+
 
         finish.setOnClickListener{
 
@@ -163,7 +231,7 @@ class TrainingActivity : AppCompatActivity() {
                     1)
         }
     }
-    
+
 
 //======================
 
@@ -192,11 +260,9 @@ class TrainingActivity : AppCompatActivity() {
                 timer(1,1).cancel()
                 val builder = AlertDialog.Builder(this@TrainingActivity)
                 builder.setMessage(R.string.training_completed)
-                builder.setPositiveButton(R.string.training_statistics){_,_->
+                builder.setPositiveButton(R.string.training_statistics){ _, _->
                     val stat = Intent(this@TrainingActivity, TrainingStatisticsActivity::class.java)
-
                     stat.putExtra(getString(R.string.presentationEntries), PresentEntries)
-
                     unmuteSound()
                     startActivity(stat)
                 }
@@ -280,21 +346,13 @@ class TrainingActivity : AppCompatActivity() {
     }
 
     private  fun muteSound(){
-        var amanager= getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        amanager.setStreamMute(AudioManager.STREAM_NOTIFICATION, true)
-        amanager.setStreamMute(AudioManager.STREAM_ALARM, true)
-        amanager.setStreamMute(AudioManager.STREAM_MUSIC, true)
-        amanager.setStreamMute(AudioManager.STREAM_RING, true)
-        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true)
+        val audio = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        audio.setStreamVolume(AudioManager.STREAM_MUSIC, 0, AudioManager.FLAG_SHOW_UI)
     }
 
     private fun unmuteSound(){
-        var amanager= getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        amanager.setStreamMute(AudioManager.STREAM_NOTIFICATION, false)
-        amanager.setStreamMute(AudioManager.STREAM_ALARM, false)
-        amanager.setStreamMute(AudioManager.STREAM_MUSIC, false)
-        amanager.setStreamMute(AudioManager.STREAM_RING, false)
-        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false)
+        val audio = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        audio.setStreamVolume(AudioManager.STREAM_MUSIC, audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC), AudioManager.FLAG_SHOW_UI)
     }
 
     override fun onPause() {
