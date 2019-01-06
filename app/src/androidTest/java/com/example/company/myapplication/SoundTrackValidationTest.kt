@@ -1,5 +1,6 @@
 package com.example.company.myapplication
 
+import android.os.SystemClock
 import android.preference.PreferenceManager
 import android.support.test.InstrumentationRegistry.getTargetContext
 import android.support.test.espresso.Espresso.onView
@@ -8,9 +9,20 @@ import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import junit.framework.Assert.assertEquals
+import kotlinx.android.synthetic.main.activity_training.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import android.support.test.espresso.util.HumanReadables
+import android.support.test.espresso.PerformException
+import android.support.test.espresso.util.TreeIterables
+import android.support.test.espresso.UiController
+import android.support.test.espresso.matcher.ViewMatchers.isRoot
+import android.support.test.espresso.ViewAction
+import android.view.View
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
+import java.util.regex.Matcher
 
 
 @RunWith(AndroidJUnit4::class)
@@ -18,6 +30,7 @@ class SoundTrackValidationTest {
     @Rule
     @JvmField
     var mIntentsTestRule = ActivityTestRule<StartPageActivity>(StartPageActivity::class.java)
+
 
     @Test
     fun Test(){
@@ -45,5 +58,4 @@ class SoundTrackValidationTest {
         debSl.putBoolean(OnAudio, false)
         debSl.apply()
     }
-
 }

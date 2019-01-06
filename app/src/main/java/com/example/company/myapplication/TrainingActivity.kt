@@ -459,6 +459,7 @@ class TrainingActivity : AppCompatActivity() {
     private fun timer(millisInFuture: Long, countDownInterval: Long): CountDownTimer {
         return object : CountDownTimer(millisInFuture, countDownInterval) {
 
+
             override fun onTick(millisUntilFinished: Long) {
                 timeOfSlide++
                 timerTimeRemain = millisUntilFinished
@@ -469,6 +470,13 @@ class TrainingActivity : AppCompatActivity() {
                     cancel()
                 } else {
                     time_left.text = timeRemaining
+                }
+
+                if(time_left.text == getString(R.string.test_sec) && isAudio!!){
+                    val handler = Handler()
+                    handler.postDelayed({
+                        finish.performClick()
+                    },3000)
                 }
 
                 if(time_left.text == getString(R.string.first_sec)){
