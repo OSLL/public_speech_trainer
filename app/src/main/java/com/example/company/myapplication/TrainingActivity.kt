@@ -80,6 +80,7 @@ class TrainingActivity : AppCompatActivity() {
     private var nIndex: Int = -1
 
     var isAudio: Boolean? = null
+    var isDebPres: Boolean? = null
 
     @SuppressLint("LongLogTag", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,6 +106,7 @@ class TrainingActivity : AppCompatActivity() {
 
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         isAudio = sharedPreferences.getBoolean(getString(R.string.deb_speech_audio_key), false)
+        isDebPres = sharedPreferences.getBoolean(getString(R.string.deb_pres), false)
 
         addPermission()
 
@@ -476,7 +478,7 @@ class TrainingActivity : AppCompatActivity() {
                     val handler = Handler()
                     handler.postDelayed({
                         finish.performClick()
-                    },3000)
+                    },4000)
                 }
 
                 if(time_left.text == getString(R.string.first_sec)){
@@ -495,6 +497,12 @@ class TrainingActivity : AppCompatActivity() {
                         time_left.setTextColor(resources.getColor(android.R.color.holo_red_light))
                         extraTimerFun()
                     },2000)
+
+                    if(isDebPres!! && !isAudio!!){
+                        handler.postDelayed({
+                            finish.performClick()
+                        },3000)
+                    }
 
                 }
             }
