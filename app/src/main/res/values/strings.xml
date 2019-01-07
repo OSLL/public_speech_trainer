@@ -176,6 +176,8 @@
     <!-- Example settings for Tests -->
     <string name="testSound_time">00:30</string>
     <string name="testCountDown_time">00:05</string>
+    <string name="test_mode_timer">test_mode_timer</string>
+    <string name="test_mode_sound">test_mode_sound</string>
     <string name="pause">Пауза</string>
     <string name="continue_">Продолжить</string>
 

@@ -27,8 +27,9 @@ class AdditionalCountdownTest {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
         val debSl = sharedPreferences.edit()
         val OnMode = mIntentsTestRule.activity.getString(R.string.deb_pres)
-        debSl.putBoolean(OnMode, true)
-        debSl.apply()
+
+        debSl.putBoolean(OnMode, true).apply()
+        debSl.putBoolean(mIntentsTestRule.activity.getString(R.string.test_mode_timer), true).apply()
 
         onView(withId(R.id.addBtn)).perform(click())
         onView(withId(R.id.addPresentation)).perform(click())
@@ -42,6 +43,7 @@ class AdditionalCountdownTest {
 
         onView(withId(R.id.time_left)).check(matches(hasTextColor(android.R.color.holo_red_light)))
 
+        debSl.putBoolean(mIntentsTestRule.activity.getString(R.string.test_mode_timer), false).apply()
         debSl.putBoolean(OnMode, false)
         debSl.apply()
     }

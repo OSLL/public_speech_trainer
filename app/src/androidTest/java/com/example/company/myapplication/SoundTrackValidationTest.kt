@@ -29,6 +29,7 @@ class SoundTrackValidationTest {
 
         debSl.putBoolean(OnMode, true)
         debSl.putBoolean(OnAudio, true)
+        debSl.putBoolean(mIntentsTestRule.activity.getString(R.string.test_mode_sound), true).apply()
 
         debSl.apply()
         onView(withId(R.id.addBtn)).perform(click())
@@ -42,6 +43,7 @@ class SoundTrackValidationTest {
 
         assertEquals(speed_statistics!!.toFloat(),48f,10f)
 
+        debSl.putBoolean(mIntentsTestRule.activity.getString(R.string.test_mode_sound), false).apply()
         debSl.putBoolean(OnMode, false)
         debSl.putBoolean(OnAudio, false)
         debSl.apply()

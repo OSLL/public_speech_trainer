@@ -80,7 +80,8 @@ class TrainingActivity : AppCompatActivity() {
     private var nIndex: Int = -1
 
     var isAudio: Boolean? = null
-    var isDebPres: Boolean? = null
+    var isTestTimer: Boolean? = null
+    var isTestSound: Boolean? = null
 
     @SuppressLint("LongLogTag", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,7 +107,8 @@ class TrainingActivity : AppCompatActivity() {
 
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         isAudio = sharedPreferences.getBoolean(getString(R.string.deb_speech_audio_key), false)
-        isDebPres = sharedPreferences.getBoolean(getString(R.string.deb_pres), false)
+        isTestTimer = sharedPreferences.getBoolean(getString(R.string.test_mode_timer), false)
+        isTestSound = sharedPreferences.getBoolean(getString(R.string.test_mode_sound), false)
 
         addPermission()
 
@@ -474,7 +476,7 @@ class TrainingActivity : AppCompatActivity() {
                     time_left.text = timeRemaining
                 }
 
-                if(time_left.text == getString(R.string.test_sec) && isAudio!!){
+                if(time_left.text == getString(R.string.test_sec) && isTestSound!!){
                     val handler = Handler()
                     handler.postDelayed({
                         finish.performClick()
@@ -498,7 +500,7 @@ class TrainingActivity : AppCompatActivity() {
                         extraTimerFun()
                     },2000)
 
-                    if(isDebPres!! && !isAudio!!){
+                    if(isTestTimer!! && !isTestSound!!){
                         handler.postDelayed({
                             finish.performClick()
                         },3000)
