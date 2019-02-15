@@ -5,18 +5,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.pdf.PdfRenderer
-import android.net.Uri
 import android.os.Bundle
-import android.os.ParcelFileDescriptor
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -24,6 +18,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import com.example.company.myapplication.views.PresentationStartpageItemRow
 import com.example.company.myapplication.appSupport.PdfToBitmap
+import com.example.company.myapplication.appSupport.ProgressHelper
 import com.example.putkovdimi.trainspeech.DBTables.DaoInterfaces.PresentationDataDao
 import com.example.putkovdimi.trainspeech.DBTables.PresentationData
 import com.example.putkovdimi.trainspeech.DBTables.SpeechDataBase
@@ -31,6 +26,9 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_start_page.*
+import java.io.IOException
+import java.net.InetSocketAddress
+import java.net.Socket
 import kotlin.NullPointerException
 
 
@@ -49,6 +47,7 @@ class StartPageActivity : AppCompatActivity() {
 
     private var listPresentationData: List<PresentationData>? = null
     private var presentationDataDao: PresentationDataDao? = null
+    private lateinit var progressHelper: ProgressHelper
 
     private var pdfReader: PdfToBitmap? = null
 
@@ -56,6 +55,9 @@ class StartPageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start_page)
+
+        progressHelper = ProgressHelper(this, start_page_root, listOf(recyclerview_startpage, addBtn))
+        presentationDataDao = SpeechDataBase.getInstance(this)?.PresentationDataDao()
 
         if (!checkPermissions())
             checkPermissions()
@@ -74,10 +76,22 @@ class StartPageActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+    override fun onPause() {
+        progressHelper.show()
+        super.onPause()
+    }
+
+    override fun onResume() {
+        progressHelper.hide()
+        super.onResume()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu,menu)
         return super.onCreateOptionsMenu(menu)
     }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val id = item?.itemId
         when (id) {
@@ -96,7 +110,6 @@ class StartPageActivity : AppCompatActivity() {
     }
 
     private fun refreshRecyclerView() {
-        presentationDataDao = SpeechDataBase.getInstance(this)?.PresentationDataDao()
         listPresentationData = presentationDataDao?.getAll()
         if (listPresentationData == null || presentationDataDao == null) {
             Toast.makeText(this, "fillRecError", Toast.LENGTH_LONG).show()
@@ -151,10 +164,18 @@ class StartPageActivity : AppCompatActivity() {
         recyclerview_startpage.isLongClickable = true
 
         adapter?.setOnItemClickListener{ item: Item<ViewHolder>, view: View ->
-            val row = item as PresentationStartpageItemRow
-            val i = Intent(this, TrainingActivity::class.java)
-            i.putExtra(getString(R.string.CURRENT_PRESENTATION_ID), row.presentationId)
-            startActivity(i)
+            //progressHelper.show()
+
+            if (isOnline()) {
+                val row = item as PresentationStartpageItemRow
+                val i = Intent(this, TrainingActivity::class.java)
+                i.putExtra(getString(R.string.CURRENT_PRESENTATION_ID), row.presentationId)
+                startActivity(i)
+            }
+            else
+                Toast.makeText(
+                        applicationContext, R.string.no_internet_connection, Toast.LENGTH_SHORT
+                ).show()
         }
 
         adapter?.setOnItemLongClickListener { item: Item<ViewHolder>, view ->
@@ -200,6 +221,24 @@ class StartPageActivity : AppCompatActivity() {
 
     }
 
+    private fun isOnline(): Boolean {
+        var connection = false
+        val thread = Thread(Runnable {
+            connection = try {
+                val socket = Socket()
+                socket.connect(InetSocketAddress("8.8.8.8", 53), 1500)
+                socket.close()
+                true
+            } catch (e: IOException) {
+                false
+            }
+        })
+        thread.start()
+        thread.join()
+
+        return connection
+    }
+
     fun checkPermissions(): Boolean {
         val permissions = ArrayList<String>()
         permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -220,10 +259,15 @@ class StartPageActivity : AppCompatActivity() {
         }
         return true
     }
+
     override fun onStart() {
         super.onStart()
         refreshRecyclerView()
         runLayoutAnimation(recyclerview_startpage)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
     override fun onStop() {
         super.onStop()

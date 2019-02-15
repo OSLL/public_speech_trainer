@@ -37,8 +37,6 @@ class SoundTrackValidationTest {
 
         onView(withId(R.id.trainingTime)).perform(clearText(), typeText(mIntentsTestRule.activity.getString(R.string.testSound_time)), closeSoftKeyboard())
 
-        onView(withId(R.id.training)).perform(click())
-
         onView(withId(android.R.id.button1)).perform(click())
 
         assertEquals(speed_statistics!!.toFloat(),48f,10f)
