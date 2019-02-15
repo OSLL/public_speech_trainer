@@ -34,6 +34,7 @@ import kotlin.concurrent.fixedRateTimer
 const val SPEECH_RECOGNITION_SERVICE_DEBUGGING = "test_speech_rec.TrainingActivity" // информация о взаимодействии с сервисом распознавания речи
 const val ACTIVITY_TRAINING_NAME = ".TrainingActivity"
 
+
 @Suppress("DEPRECATION")
 class TrainingActivity : AppCompatActivity() {
     private var timeOfSlide: Long = 0
@@ -521,7 +522,7 @@ class TrainingActivity : AppCompatActivity() {
                     val handler = Handler()
                     handler.postDelayed({
                         finish.performClick()
-                    },4000)
+                    },resources.getInteger(R.integer.fourthConstForTest).toLong())
                 }
 
                 if(time_left.text == getString(R.string.first_sec)){
@@ -533,18 +534,18 @@ class TrainingActivity : AppCompatActivity() {
                         if(!finishFlag) {
                             time_left.text = getString(R.string.zero_sec)
                         }
-                    },1000)
+                    },resources.getInteger(R.integer.firstConstForTest).toLong())
 
                     handler.postDelayed({
                         timeOfSlide += 2
                         time_left.setTextColor(resources.getColor(android.R.color.holo_red_light))
                         extraTimerFun()
-                    },2000)
+                    },resources.getInteger(R.integer.secondConstForTest).toLong())
 
                     if(isTestTimer!! && !isTestSound!!){
                         handler.postDelayed({
                             finish.performClick()
-                        },3000)
+                        },resources.getInteger(R.integer.thirdConstForTest).toLong())
                     }
 
                 }

@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="anim_duration_medium">500</integer>
+    <integer name="firstConstForTest">1000</integer>
+    <integer name="secondConstForTest">2000</integer>
+    <integer name="thirdConstForTest">3000</integer>
+    <integer name="fourthConstForTest">4000</integer>
 </resources>
