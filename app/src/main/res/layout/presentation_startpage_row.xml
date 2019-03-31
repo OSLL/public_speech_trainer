@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/constraintLayout"
+    android:layout_marginHorizontal="10dp"
     android:layout_marginTop="15dp"
-    app:cardCornerRadius="8dp"
     android:background="@android:color/white"
     android:foreground="@drawable/card_foreground"
-    app:cardElevation="4dp"
-    android:layout_marginHorizontal="10dp">
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
 
     <ImageView
         android:id="@+id/image_view_presentation_start_page_row"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_vertical"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
@@ -27,20 +27,21 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="170dp"
-        android:layout_marginStart="160dp">
+        android:layout_height="120dp"
+        android:layout_marginStart="120dp">
 
         <TextView
             android:id="@+id/name_presentation_start_page_row"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:paddingHorizontal="4dp"
-            android:textAlignment="center"
-            android:text="Presentation Name"
-            android:maxLines="2"
-            android:textColor="@android:color/black"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingHorizontal="4dp"
+            android:text="Presentation Name"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
             android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
@@ -48,7 +49,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_gravity="center">
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="16dp"
+            android:layout_gravity="center|start">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -74,8 +77,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="3dp"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="25dp"
@@ -93,21 +96,41 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/presentation_date_layout_start_page_row"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="3dp">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/ic_date_range_black_24dp" />
+
+                <TextView
+                    android:layout_marginStart="5dp"
+                    android:id="@+id/presentation_date_start_page_row"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    tools:text="2019-01-31"/>
+
+            </LinearLayout>
+
         </LinearLayout>
 
 
-            <ImageButton
-                android:layout_gravity="bottom|right"
-                android:foreground="@drawable/card_foreground"
-                android:id="@+id/training_history_btn_start_page_row"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="15dp"
-                android:background="@drawable/calendar" />
+        <ImageButton
+            android:id="@+id/training_history_btn_start_page_row"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="15dp"
+            android:background="@drawable/calendar"
+            android:foreground="@drawable/card_foreground" />
 
 
     </FrameLayout>
-
-
 
 </android.support.v7.widget.CardView>
