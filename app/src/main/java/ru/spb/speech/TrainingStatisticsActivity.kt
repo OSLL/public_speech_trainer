@@ -37,6 +37,7 @@ import java.text.BreakIterator
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
+import kotlin.math.round
 
 var url = ""
 var speed_statistics: Int? = null
@@ -209,7 +210,7 @@ class TrainingStatisticsActivity : AppCompatActivity() {
                 getString(R.string.best_slide) + " $bestSlide\n" +
                 getString(R.string.worst_slide) + " $worstSlide\n" +
                 getString(R.string.training_time) + " ${getStringPresentationTimeLimit(trainingStatisticsData?.currentTrainingTime)}\n" +
-                getString(R.string.count_of_slides) + " ${trainingSlidesList.size}"
+                getString(R.string.count_of_slides) + " ${round(trainingSlidesList.size.toDouble()/(presentationData?.pageCount)!!.toDouble()*100)/100}"
 
 
         speed_statistics = trainingData!!.allRecognizedText.split(" ").size
