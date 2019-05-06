@@ -37,6 +37,7 @@ import java.text.BreakIterator
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
+import kotlin.math.round
 
 var url = ""
 var speed_statistics: Int? = null
@@ -69,6 +70,7 @@ class TrainingStatisticsActivity : AppCompatActivity() {
 
     @SuppressLint("LongLogTag", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_training_statistics)
 
@@ -190,13 +192,18 @@ class TrainingStatisticsActivity : AppCompatActivity() {
 
         printPiechart(entries)
 
-        val averageSpeed = getAverageSpeed(trainingSpeedData)
-
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         val optimalSpeed = sharedPreferences.getString(getString(R.string.speed_key), "120")
+        val isExportVisible = sharedPreferences.getBoolean("deb_statistics_export", false)
+
+        val averageSpeed = getAverageSpeed(trainingSpeedData)
 
         val bestSlide = getBestSlide(trainingSpeedData, optimalSpeed.toInt())
         val worstSlide = getWorstSlide(trainingSpeedData, optimalSpeed.toInt())
+
+        if (!isExportVisible){
+            export.visibility = View.VISIBLE
+        }
 
         earnOfTrain.text = "${getString(R.string.earnings_of_training)} ${trainingStatisticsData?.trainingGrade?.format(resources.getInteger(R.integer.num_of_dec_in_the_training_score))} ${getString(R.string.maximum_mark_for_training)}"
 

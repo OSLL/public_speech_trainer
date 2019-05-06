@@ -4,6 +4,7 @@ import android.preference.PreferenceManager
 import android.support.test.InstrumentationRegistry.getTargetContext
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions
+import android.support.test.espresso.assertion.ViewAssertions.doesNotExist
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.intent.rule.IntentsTestRule
 import android.support.test.espresso.matcher.ViewMatchers.*
@@ -29,6 +30,7 @@ class DebugSlidesTest : BaseInstrumentedTest() {
         val debSl = sharedPreferences.edit()
         val OnMode = mIntentsTestRule.activity.getString(R.string.deb_pres)
         val PresName = mIntentsTestRule.activity.getString(R.string.deb_pres_name)
+        val exportFlagCheck = "deb_statistics_export"
         debSl.putBoolean(OnMode, true)
         debSl.apply()
         onView(withId(R.id.addBtn)).perform(ViewActions.click())
@@ -36,6 +38,15 @@ class DebugSlidesTest : BaseInstrumentedTest() {
         onView(withText("26")).check(matches(isDisplayed()))
         onView(withId(R.id.addPresentation)).perform(ViewActions.click())
         debSl.putBoolean(OnMode, false)
+        debSl.apply()
+
+        debSl.putBoolean(exportFlagCheck, true)
+        debSl.apply()
+        onView(withId(R.id.addBtn)).perform(ViewActions.click())
+        onView(withId(R.id.addPresentation)).perform(ViewActions.click())
+        onView(withId(android.R.id.button1)).perform(ViewActions.click())
+        onView(withId(R.id.export)).check(doesNotExist())
+        debSl.putBoolean(exportFlagCheck, false)
         debSl.apply()
     }
 
