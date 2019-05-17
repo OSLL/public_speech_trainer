@@ -1,0 +1,4 @@
+#Fri May 17 17:37:23 MSK 2019
+base.0=/home/igor/Загрузки/android_public_speech_trainer/app/build/intermediates/transforms/dexMerger/debug/7
+path.0=classes.dex
+renamed.0=classes.dex
