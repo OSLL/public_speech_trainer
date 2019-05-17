@@ -392,7 +392,13 @@ class TrainingActivity : AppCompatActivity() {
 
             trainingData?.allRecognizedText = allRecognizedText
             trainingData?.timeStampInSec = System.currentTimeMillis() / 1000
+
             trainingData?.shareOfParasiticWords = "${((trainingStatisticsData.countOfParasites.toFloat() / trainingStatisticsData.curWordCount.toFloat())*resources.getInteger(R.integer.transfer_to_interest)).format(0)} " + getString(R.string.percent)
+
+            trainingData?.exerciseTimeFactorMarkX = (trainingStatisticsData.xExerciseTimeFactor * this.resources.getInteger(R.integer.transfer_to_interest)/this.resources.getDimension(R.dimen.number_of_factors)).format(1).replace(",", ".")
+            trainingData?.speechSpeedFactorMarkY = (trainingStatisticsData.ySpeechSpeedFactor * this.resources.getInteger(R.integer.transfer_to_interest)/this.resources.getDimension(R.dimen.number_of_factors)).format(1).replace(",", ".")
+            trainingData?.timeOnSlidesFactorMarkZ = (trainingStatisticsData.zTimeOnSlidesFactor * this.resources.getInteger(R.integer.transfer_to_interest)/this.resources.getDimension(R.dimen.number_of_factors)).format(1).replace(",", ".")
+
 
             if (saveTrainingInDB) {
                 val trainingDBHelper = TrainingDBHelper(this)
