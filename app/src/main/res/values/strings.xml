@@ -641,27 +641,15 @@
     </string-array>
 
     <string-array name="verbalGarbage">
-        <item>короче</item>
         <item>однако</item>
         <item>это</item>
-        <item>типа</item>
-        <item>как бы</item>
-        <item>это самое</item>
-        <item>как сказать</item>
-        <item>в общем-то</item>
-        <item>знаешь</item>
-        <item>ну</item>
         <item>то есть</item>
         <item>так сказать</item>
-        <item>понимаешь</item>
-        <item>собственно</item>
         <item>в принципе</item>
         <item>допустим</item>
         <item>например</item>
-        <item>слушай</item>
         <item>собственно говоря</item>
         <item>кстати</item>
-        <item>вообще</item>
         <item>кажется</item>
         <item>вероятно</item>
         <item>значит</item>
@@ -669,11 +657,23 @@
         <item>просто</item>
         <item>сложно сказать</item>
         <item>конекретно</item>
+    </string-array>
+
+    <string-array name="parasiteWords">
+        <item>короче</item>
+        <item>типа</item>
+        <item>как бы</item>
+        <item>это самое</item>
+        <item>как сказать</item>
+        <item>в общем-то</item>
+        <item>ну</item>
+        <item>так сказать</item>
+        <item>собственно</item>
+        <item>вообще</item>
         <item>вот</item>
         <item>ладно</item>
         <item>блин</item>
         <item>так</item>
         <item>походу</item>
     </string-array>
-
 </resources>

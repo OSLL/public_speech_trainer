@@ -18,7 +18,7 @@ class TrainingStatisticsData (myContext: Context, presentationData: Presentation
 
     private val context = myContext
     private val presData = presentationData
-    val trainData = trainingData
+    private val trainData = trainingData
 
     private var trainingSlideDBHelper: TrainingSlideDBHelper? = TrainingSlideDBHelper(context)
     private var trainingDBHelper = TrainingDBHelper(context)
@@ -107,11 +107,21 @@ class TrainingStatisticsData (myContext: Context, presentationData: Presentation
 
     //Количество слов-паразитов
     private val countingParasitesHelper = CountingNumberOfWordsParasites()
-    val countOfParasites = countingParasitesHelper.counting(trainData!!.allRecognizedText, context.resources.getStringArray(R.array.verbalGarbage))
+    val countOfParasites = countingParasitesHelper.counting(trainData!!.allRecognizedText, context.resources.getStringArray(R.array.parasiteWords))
 
-    private fun countWords(where: String, what: String): Long {
-        return ((where.length - where.replace(what, "").length) / what.length).toLong()
-    }
+    //Количество словарного мусора
+    private val countOfGarbageTemp = countingParasitesHelper.counting(trainData!!.allRecognizedText, context.resources.getStringArray(R.array.verbalGarbage))
+    val countOfGarbage: Int
+        get() {
+            return if(countOfGarbageTemp/curWordCount < 0.1){
+                0
+            } else {
+                (countOfGarbageTemp - countOfGarbageTemp*0.1).toInt()
+            }
+        }
+
+    //Четвертый критерий оценки
+    var pCountOfGarbageFactor = calculateP()
 
     //--------------------Статистика тренировок:---------------------//
 
@@ -369,6 +379,10 @@ class TrainingStatisticsData (myContext: Context, presentationData: Presentation
 
         dzTimeDispersionOnSlides /= timeList.size
         return context.resources.getDimension(R.dimen.unit_float)/(sqrt(dzTimeDispersionOnSlides) + context.resources.getDimension(R.dimen.unit_float))
+    }
+
+    private fun calculateP(): Float{
+        return Math.pow(context.resources.getDimension(R.dimen.unit_float) - ((countOfGarbage + countOfParasites)/curWordCount).toDouble(),context.resources.getDimension(R.dimen.degree_for_fourth_criterion).toDouble()).toFloat()
     }
 
 }

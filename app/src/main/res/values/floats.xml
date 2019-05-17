@@ -3,6 +3,8 @@
     <dimen name="zero_float">0px</dimen>
     <dimen name="quadrant_degree_float">2px</dimen>
     <dimen name="unit_float">1px</dimen>
+    <dimen name="degree_for_fourth_criterion">4px</dimen>
+
     <dimen name="number_of_seconds_in_a_minute_float">60px</dimen>
 
     <dimen name="number_of_factors">3px</dimen>
