@@ -77,12 +77,9 @@ class DebugSlidesTest : BaseInstrumentedTest() {
         mDevice!!.findObject(UiSelector().text(mIntentsTestRule.activity.getString(R.string.stop))).click()
         Thread.sleep(mIntentsTestRule.activity.resources.getInteger(R.integer.time_in_milliseconds_until_you_can_switch_to_workout_statistics).toLong())
 
-        Log.d("HIHI","111")
         onView(withId(android.R.id.button1)).perform(ViewActions.click())
 
-        Log.d("HIHI","111")
         onView(withId(R.id.export)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
-        Log.d("HIHI","111")
 
         debSl.putBoolean(OnMode, false)
         debSl.putBoolean(OnAudio, false)
