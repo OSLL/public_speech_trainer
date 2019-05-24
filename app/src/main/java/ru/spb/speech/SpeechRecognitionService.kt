@@ -50,7 +50,6 @@ public class SpeechRecognitionService: Service() {
         mSpeechRecognizerIntent!!.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
                 this.packageName)
 
-
         mSpeechRecognizer!!.startListening(mSpeechRecognizerIntent)
     }
 
