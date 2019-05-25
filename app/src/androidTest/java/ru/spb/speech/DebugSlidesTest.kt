@@ -12,7 +12,6 @@ import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.runner.AndroidJUnit4
 import android.support.test.uiautomator.UiDevice
 import android.support.test.uiautomator.UiSelector
-import android.util.Log
 import ru.spb.speech.database.SpeechDataBase
 import junit.framework.Assert.assertEquals
 import org.hamcrest.CoreMatchers
@@ -37,16 +36,15 @@ class DebugSlidesTest : BaseInstrumentedTest() {
         assertEquals(db?.getAll()?.size?.toFloat(), 0f) // проверка БД на пустоту
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getTargetContext())
         val debSl = sharedPreferences.edit()
-        val OnMode = mIntentsTestRule.activity.getString(R.string.deb_pres)
+        val onMode = mIntentsTestRule.activity.getString(R.string.deb_pres)
         val PresName = mIntentsTestRule.activity.getString(R.string.deb_pres_name)
-        //val exportFlagCheck = sharedPreferences.getString("deb_statistics_export", false)
-        debSl.putBoolean(OnMode, true)
+        debSl.putBoolean(onMode, true)
         debSl.apply()
         onView(withId(R.id.addBtn)).perform(ViewActions.click())
         onView(withText(PresName.substring(0, PresName.indexOf(".pdf")))).check(matches(isDisplayed()))
         onView(withText("26")).check(matches(isDisplayed()))
         onView(withId(R.id.addPresentation)).perform(ViewActions.click())
-        debSl.putBoolean(OnMode, false)
+        debSl.putBoolean(onMode, false)
         debSl.apply()
     }
 
@@ -57,23 +55,27 @@ class DebugSlidesTest : BaseInstrumentedTest() {
 
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getTargetContext())
         val debSl = sharedPreferences.edit()
-        val OnMode = mIntentsTestRule.activity.getString(R.string.deb_pres)
-        val OnAudio = mIntentsTestRule.activity.getString(R.string.deb_speech_audio_key)
+        val onMode = mIntentsTestRule.activity.getString(R.string.deb_pres)
+        val onAudio = mIntentsTestRule.activity.getString(R.string.deb_speech_audio_key)
         val exportFlagCheck = "deb_statistics_export"
 
-        debSl.putBoolean(OnMode, true)
-        debSl.putBoolean(OnAudio, true)
+        debSl.putBoolean(onMode, true)
+        debSl.putBoolean(onAudio, true)
         debSl.putBoolean(mIntentsTestRule.activity.getString(R.string.useStatistics), true)
         debSl.putBoolean(exportFlagCheck, true)
 
         debSl.apply()
 
         onView(withId(R.id.addBtn)).perform(ViewActions.click())
+        
         presName = mIntentsTestRule.activity.getString(R.string.deb_pres_name).substring(mIntentsTestRule.activity.resources.getInteger(R.integer.zero), mIntentsTestRule.activity.getString(R.string.deb_pres_name).indexOf(mIntentsTestRule.activity.getString(R.string.pdf_format)))
+        
         onView(withId(R.id.presentationName)).perform(ViewActions.clearText(), ViewActions.typeText(presName), ViewActions.closeSoftKeyboard())
         onView(withId(R.id.addPresentation)).perform(ViewActions.click())
+        
         mDevice!!.findObject(UiSelector().text(presName)).click()
         Thread.sleep(mIntentsTestRule.activity.resources.getInteger(R.integer.workout_time_in_milliseconds_for_training).toLong())
+        
         mDevice!!.findObject(UiSelector().text(mIntentsTestRule.activity.getString(R.string.stop))).click()
         Thread.sleep(mIntentsTestRule.activity.resources.getInteger(R.integer.time_in_milliseconds_until_you_can_switch_to_workout_statistics).toLong())
 
@@ -81,8 +83,8 @@ class DebugSlidesTest : BaseInstrumentedTest() {
 
         onView(withId(R.id.export)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
 
-        debSl.putBoolean(OnMode, false)
-        debSl.putBoolean(OnAudio, false)
+        debSl.putBoolean(onMode, false)
+        debSl.putBoolean(onAudio, false)
         debSl.putBoolean(exportFlagCheck, false)
         debSl.apply()
 
@@ -90,6 +92,7 @@ class DebugSlidesTest : BaseInstrumentedTest() {
 
         onView(withText(presName)).perform(ViewActions.longClick())
         Thread.sleep(mIntentsTestRule.activity.resources.getInteger(R.integer.time_in_milliseconds_to_display_the_delete_button).toLong())
+        
         onView(withText(mIntentsTestRule.activity.getString(R.string.remove))).perform(ViewActions.click())
     }
 }
