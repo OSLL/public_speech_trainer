@@ -30,7 +30,7 @@ android {
     buildToolsVersion '28.0.3'
 
     lintOptions {
-       abortOnError true
+        abortOnError true
     }
 
 }
@@ -71,3 +71,7 @@ allprojects {
 }
 
 apply plugin: 'com.google.gms.google-services'
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
+}
