@@ -260,8 +260,8 @@
     <string name="training_not_end">Тренировка не окончена !</string>
 
     <string name="launchedFromHistoryActivityFlag">launched_from_history_activity_flag</string>
-    <string name="slideDurationInSeconds">Длительность слайда (секунды)</string>
-    <string name="slideDurationInSeconds_max1080">Длительность слайда\n(секунды)</string>
+    <string name="slideDurationInSeconds">Длительность пауз/слайда (секунды)</string>
+    <string name="slideDurationInSeconds_max1080">Длительность паузы/слайда\n(секунды)</string>
     <string name="presentationEditing">Редактирование презентации</string>
     <string name="isPresentationChangedFlag">isPresentationChanges</string>
     <string name="presentationPosition">presentationPosition</string>
@@ -297,6 +297,9 @@
     <string name="pref_title_statistics_collection">Сбор статистики тренировок</string>
     <string name="try_again">Попробуйте снова</string>
     <string name="more_sign"><![CDATA[>]]></string>
+    <string name="audio_analyze_summary">Запись звука во время тренировок для дальнейшего анализа на паузы</string>
+    <string name="audio_analyze_title">Анализ аудио</string>
+    <string name="audio_analyze">audio_analyze</string>
 
     <string-array name="prepositionsAndConjunctions">
         <item>а именно</item>

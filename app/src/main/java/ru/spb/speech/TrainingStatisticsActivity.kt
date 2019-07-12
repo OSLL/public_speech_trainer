@@ -21,7 +21,7 @@ import ru.spb.speech.TrainingHistoryActivity.Companion.launchedFromHistoryActivi
 import ru.spb.speech.appSupport.PdfToBitmap
 import ru.spb.speech.appSupport.ProgressHelper
 import ru.spb.speech.vocabulary.PrepositionsAndConjunctions
-import ru.spb.speech.fragments.TimeOnEachSlideChartFragment
+import ru.spb.speech.fragments.TimeOnEachSlideFragment
 import ru.spb.speech.database.interfaces.PresentationDataDao
 import ru.spb.speech.database.PresentationData
 import ru.spb.speech.database.SpeechDataBase
@@ -33,8 +33,9 @@ import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IValueFormatter
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import kotlinx.android.synthetic.main.activity_training_statistics.*
-import ru.spb.speech.fragments.audiostatistics_fragment.AudioStatisticsFragment
-import kotlinx.android.synthetic.main.evaluation_information_sheet.view.*
+import ru.spb.speech.appSupport.showStatisticsFragments
+import ru.spb.speech.fragments.statistic_fragments.AudioStatisticsFragment
+import ru.spb.speech.fragments.statistic_fragments.SpeedStatisticsFragment
 import java.io.*
 import java.text.BreakIterator
 import java.util.*
@@ -93,10 +94,11 @@ class TrainingStatisticsActivity : AppCompatActivity() {
             return
         }
 
-        with (trainingId) {
-            printTimeOnEachSlideChart(this)
-            printAudioAnalyzerStatistics(this)
-        }
+        showStatisticsFragments(
+                AudioStatisticsFragment() to R.id.audio_analyzer_statistics_container,
+                TimeOnEachSlideFragment() to R.id.time_on_each_slide_chart_box_activity_training_statistics,
+                SpeedStatisticsFragment() to R.id.speed_line_chart_container,
+                trainingId = trainingId)
 
         if (intent.getIntExtra(getString(R.string.launchedFromHistoryActivityFlag),-1) == launchedFromHistoryActivityFlag) returnTraining.visibility = View.GONE
 
@@ -194,8 +196,6 @@ class TrainingStatisticsActivity : AppCompatActivity() {
             trainingSpeedData[i] = speed
             presentationSpeedData.add(BarEntry((i).toFloat(), speed))
         }
-
-        printSpeedLineChart(presentationSpeedData)
 
         val editedTextForTop10WordsChart = PrepositionsAndConjunctions(this)
                 .removeConjunctionsAndPrepositionsFromText(trainingData!!.allRecognizedText)
@@ -416,67 +416,6 @@ class TrainingStatisticsActivity : AppCompatActivity() {
 
     }
 
-    //Инициализация графика скорости чтения
-    private fun printSpeedLineChart(lineEntries: List<BarEntry>){
-        val labels = ArrayList<String>()
-        val colors = ArrayList<Int>()
-        val optimalSpeed = PreferenceManager.getDefaultSharedPreferences(this).getString(getString(R.string.speed_key), "120").toString().toInt()
-
-        for(entry in lineEntries) {
-            labels.add((entry.x + 1).toInt().toString())
-
-            colors.add(
-                    when (entry.y) {
-                        in optimalSpeed.toFloat() * 0.9f .. optimalSpeed.toFloat() * 1.1f -> ContextCompat.getColor(this, android.R.color.holo_green_dark)
-                        in Float.MIN_VALUE .. optimalSpeed.toFloat() * 0.9f -> ContextCompat.getColor(this, android.R.color.holo_blue_dark)
-                        else -> ContextCompat.getColor(this, android.R.color.holo_red_dark)
-                    }
-            )
-        }
-
-        val barDataSet = BarDataSet(lineEntries, getString(R.string.words_count))
-        barDataSet.colors = colors
-
-        val data = BarData(barDataSet)
-        data.setValueTextSize(0f)
-
-        speed_bar_chart.setTouchEnabled(false)
-        speed_bar_chart.setFitBars(true)
-        speed_bar_chart.data = data
-        speed_bar_chart.description.text = getString(R.string.slide_number)
-        speed_bar_chart.description.textSize = 15f
-        speed_bar_chart.animateXY(1000,1000)
-        speed_bar_chart.legend.textSize = 20f
-        speed_bar_chart.legend.position = Legend.LegendPosition.ABOVE_CHART_LEFT
-        speed_bar_chart.legend.formSize = 0f
-        speed_bar_chart.legend.xEntrySpace = 0f
-
-
-        speed_bar_chart.setTouchEnabled(false)
-        speed_bar_chart.setScaleEnabled(false)//выкл возможность зумить
-        speed_bar_chart.xAxis.setDrawGridLines(false)//отключение горизонтальных линии сетки
-        speed_bar_chart.axisRight.isEnabled = false// ось У справа невидимая
-        speed_bar_chart.axisLeft.setDrawGridLines(false)//откл вертикальных линий сетки
-        speed_bar_chart.axisLeft.textSize = 15f
-        speed_bar_chart.axisLeft.axisMinimum = 0f // минимальное значение оси y = 0
-        speed_bar_chart.setVisibleYRangeMinimum(optimalSpeed * 1.2f, speed_bar_chart.axisLeft.axisDependency)
-        speed_bar_chart.axisLeft.granularity = 20f
-
-        val ll = LimitLine(optimalSpeed.toFloat(), getString(R.string.speech_speed))
-        ll.lineWidth = 2f
-        ll.lineColor = Color.GREEN
-        ll.textSize = 10f
-        speed_bar_chart.axisLeft.addLimitLine(ll)
-
-        val xAxis = speed_bar_chart.xAxis
-        xAxis.textSize = 12f
-        xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.valueFormatter = IndexAxisValueFormatter(labels)
-        xAxis.granularity = 1f
-
-        speed_bar_chart.invalidate()
-    }
-
     private fun printPiechart (lineEntries: List<PieEntry>){
 
         val pieDataSet = PieDataSet(lineEntries, null)
@@ -540,22 +479,4 @@ class TrainingStatisticsActivity : AppCompatActivity() {
         }
         return list.size
     }
-
-    private fun printTimeOnEachSlideChart(trainingId: Int) {
-        val timeOnEachSlideChartFragment = TimeOnEachSlideChartFragment()
-        val bundle = Bundle()
-
-        bundle.putInt(getString(R.string.CURRENT_TRAINING_ID), trainingId)
-        timeOnEachSlideChartFragment.arguments = bundle
-
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.time_on_each_slide_chart_box_activity_training_statistics, timeOnEachSlideChartFragment)
-                .commit()
-    }
-
-    private fun printAudioAnalyzerStatistics(trainingId: Int)
-            = supportFragmentManager.beginTransaction()
-            .replace(R.id.audio_analyzer_statistics_container, AudioStatisticsFragment.instance(trainingId))
-            .commit()
-
 }
