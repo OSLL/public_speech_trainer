@@ -12,8 +12,11 @@ class RecommendationActivity : AppCompatActivity() {
         setContentView(R.layout.activity_recommendation)
 
         val bundle = intent.extras
-        val message = bundle!!.getString("recommendation")
+        var message = bundle!!.getString("recommendation")
         slidesTimeRecommendation.text = message
+
+        message = bundle!!.getString("parasites")
+        scumWordsRecommendation.text = message
 
         backToStatistics.setOnClickListener {
             finish()

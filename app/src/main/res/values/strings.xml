@@ -30,10 +30,12 @@
     <string name="export_statistics">Экспорт статистики</string>
     <string name="improve_mark">Как улучшить оценку?</string>
     <string name="recommendation_key">recommendation</string>
+    <string name="recommendation_parasites_key">parasites</string>
     <string name="recommendation_speed_with_error">Скорость демонстрации слайдов вашей презентации существенно отличается от рекомендуемой. Попробуйте %1$s время отображения слайдов.</string>
     <string name="recommendation_speed_without_error">Cкорость демонстрации слайдов %1$s</string>
     <string name="recommendation_speed_increase_info">существенно выше рекомендуемого значения. Рекомендуется увеличить время отображения указанных слайдов.</string>
     <string name="recommendation_speed_decrease_info">существенно ниже рекомендуемого значение. Рекомендуется уменьшить время отображения указанных слайдов.</string>
+    <string name="recommendation_parasites">В тексте презентации замечен набор слов-паразитов. Несмотря на то, что некоторые из этих слов могут служить в качестве логических связок, их чрезмерное присутствие в выступлении не рекомендуется. Список слов-паразитов:\n</string>
 
 
     <string name="performance_recommendations">Рекомендации к выступлению</string>

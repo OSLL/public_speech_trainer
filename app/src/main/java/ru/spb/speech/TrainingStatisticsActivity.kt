@@ -68,6 +68,7 @@ class TrainingStatisticsActivity : AppCompatActivity() {
     private var middleTimeError: Double = 30.8
 
     private var recommendationString: String = ""
+    private var recommendationParasiteString: String = ""
     private val speechDataBase by lazy { SpeechDataBase.getInstance(this)!! }
 
 
@@ -165,13 +166,6 @@ class TrainingStatisticsActivity : AppCompatActivity() {
             drawPict()
         })
         drawer.start()
-
-        improve_mark_button.setOnClickListener {
-            val intent = Intent(this, RecommendationActivity::class.java)
-            intent.putExtra(getString(R.string.recommendation_key), recommendationString)
-
-            startActivity(intent)
-        }
 
         question.setOnClickListener {
             val dialog = BottomSheetDialog(this)
@@ -286,6 +280,21 @@ class TrainingStatisticsActivity : AppCompatActivity() {
         var countOfParasites = ((trainingStatisticsData!!.countOfParasites.toFloat() / trainingStatisticsData!!.curWordCount.toFloat())*resources.getInteger(R.integer.transfer_to_interest)).format(0)
         if(trainingStatisticsData!!.countOfParasites == 0L){
             countOfParasites = "0.0"
+        }
+
+        improve_mark_button.setOnClickListener {
+            val intent = Intent(this, RecommendationActivity::class.java)
+            intent.putExtra(getString(R.string.recommendation_key), recommendationString)
+
+            if (trainingStatisticsData!!.countOfParasites != 0L){
+                recommendationParasiteString += getString(R.string.recommendation_parasites)
+                for (word in trainingStatisticsData!!.listOfParasites) {
+                    recommendationParasiteString += word + "\n"
+                }
+                intent.putExtra(getString(R.string.recommendation_parasites_key), recommendationParasiteString)
+            }
+
+            startActivity(intent)
         }
 
         textView.text = getString(R.string.average_speed) +
