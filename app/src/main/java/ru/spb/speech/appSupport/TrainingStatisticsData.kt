@@ -13,7 +13,6 @@ import ru.spb.speech.ACTIVITY_TRAINING_STATISTIC_NAME
 import ru.spb.speech.APST_TAG
 import ru.spb.speech.R
 
-
 class TrainingStatisticsData (myContext: Context, presentationData: PresentationData?, trainingData: TrainingData?) {
 
     private val context = myContext
@@ -107,8 +106,29 @@ class TrainingStatisticsData (myContext: Context, presentationData: Presentation
 
     //Количество слов-паразитов
     private val countingParasitesHelper = CountingNumberOfWordsParasites()
-    val listOfParasites = ArrayList<String>()
-    val countOfParasites = countingParasitesHelper.counting(trainData!!.allRecognizedText, context.resources.getStringArray(R.array.verbalGarbage), listOfParasites)
+    val countOfParasites = countingParasitesHelper.counting(trainData!!.allRecognizedText, context.resources.getStringArray(R.array.verbalGarbage))
+    //Частота слов по слайдам в виде массива:
+    val wordFrequencyPerSlide: Array<Float>
+        get(){
+            if(trainingSlidesList != null) {
+                val tempFrequencyArray = mutableListOf<Float>()
+                for (slide in trainingSlidesList){
+                    val tempWords = slide.knownWords?.split(" ")
+                    var curWordCount = 0
+                    if (tempWords != null) {
+                        for (word in tempWords) {
+                            if(word != ""){
+                                curWordCount += 1
+                            }
+                        }
+                    }
+                    tempFrequencyArray.add((curWordCount.toFloat() / slide.spentTimeInSec!!)*context.resources.getInteger(R.integer.seconds_in_a_minute))
+                }
+                return tempFrequencyArray.toTypedArray()
+            } else {
+                return Array(1) {-1f}
+            }
+        }
 
     //--------------------Статистика тренировок:---------------------//
 
@@ -372,16 +392,11 @@ class TrainingStatisticsData (myContext: Context, presentationData: Presentation
 
 class CountingNumberOfWordsParasites {
 
-    fun counting(allRecognizedText: String, arrayWhereFind: Array<String>, listOfParasites: ArrayList<String>): Long{
+    fun counting(allRecognizedText: String, arrayWhereFind: Array<String>): Long{
         var finalCount = 0L
-        var tempCount = 0L
         val recText = allRecognizedText.toLowerCase()
         for (word in arrayWhereFind) {
-            tempCount = countWords(recText, word)
-            if (tempCount != 0L){
-                listOfParasites.add(word)
-                finalCount += tempCount
-            }
+            finalCount += countWords(recText, word)
         }
         return finalCount
     }
