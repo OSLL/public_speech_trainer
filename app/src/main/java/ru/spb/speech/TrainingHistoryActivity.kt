@@ -4,31 +4,30 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import ru.spb.speech.database.helpers.TrainingDBHelper
-import ru.spb.speech.appSupport.ProgressHelper
-import ru.spb.speech.views.TrainingHistoryItemRow
-import ru.spb.speech.database.PresentationData
-import ru.spb.speech.database.SpeechDataBase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_training_history.*
+import ru.spb.speech.appSupport.ProgressHelper
 import ru.spb.speech.appSupport.TrainingStatisticsData
+import ru.spb.speech.database.PresentationData
+import ru.spb.speech.database.SpeechDataBase
 import ru.spb.speech.database.TrainingData
+import ru.spb.speech.database.helpers.TrainingDBHelper
+import ru.spb.speech.views.TrainingHistoryItemRow
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -102,9 +101,9 @@ class TrainingHistoryActivity : AppCompatActivity() {
             }
 
             val trainingsFile: File?
-            val sdState = android.os.Environment.getExternalStorageState()
-            trainingsFile = if (sdState == android.os.Environment.MEDIA_MOUNTED) {
-                val sdDir = android.os.Environment.getExternalStorageDirectory()
+            val sdState = Environment.getExternalStorageState()
+            trainingsFile = if (sdState == Environment.MEDIA_MOUNTED) {
+                val sdDir = Environment.getExternalStorageDirectory()
                 File(sdDir, getString(R.string.training_statistics_directory))
             } else {
                 this.cacheDir
@@ -113,8 +112,8 @@ class TrainingHistoryActivity : AppCompatActivity() {
                 trainingsFile.mkdir()
 
             val curTrainingFile: File?
-            curTrainingFile = if (sdState == android.os.Environment.MEDIA_MOUNTED) {
-                val sdDir = android.os.Environment.getExternalStorageDirectory()
+            curTrainingFile = if (sdState == Environment.MEDIA_MOUNTED) {
+                val sdDir = Environment.getExternalStorageDirectory()
                 File(sdDir, "${getString(R.string.training_statistics_directory)}/${presentationData?.name}")
             } else {
                 this.cacheDir

@@ -1,29 +1,26 @@
 package ru.spb.speech
 
 import android.content.ComponentName
-import android.preference.PreferenceManager
 import android.support.test.InstrumentationRegistry
 import android.support.test.InstrumentationRegistry.getInstrumentation
 import android.support.test.InstrumentationRegistry.getTargetContext
-import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import android.support.test.espresso.action.ViewActions
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.intent.Intents.intended
-import android.support.test.espresso.intent.matcher.IntentMatchers.*
+import android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import android.support.test.espresso.intent.rule.IntentsTestRule
-import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.runner.AndroidJUnit4
-import ru.spb.speech.R.string.*
 import android.support.test.uiautomator.UiDevice
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import ru.spb.speech.R.string.*
 
 @RunWith(AndroidJUnit4::class)
 class StartPageActivityTest : BaseInstrumentedTest() {
@@ -71,8 +68,8 @@ class StartPageActivityTest : BaseInstrumentedTest() {
 
     @Test
     fun testFromStartPageToOpenFileDialog(){
-        onView(withId(R.id.addBtn)).perform(ViewActions.click())
-        UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).pressBack()
+        onView(withId(R.id.addBtn)).perform(click())
+        UiDevice.getInstance(getInstrumentation()).pressBack()
         intended(hasComponent(ComponentName(getTargetContext(), CreatePresentationActivity::class.java)))
     }
 }

@@ -1,6 +1,5 @@
 package ru.spb.speech
 
-import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -15,7 +14,6 @@ import android.os.Build
 import android.os.Bundle
 import android.preference.*
 import android.text.TextUtils
-import android.util.Log
 import android.view.MenuItem
 import ru.spb.speech.notifications.AlarmBootReceiver
 import ru.spb.speech.notifications.AlarmReceiver
@@ -69,7 +67,7 @@ class SettingsActivity : AppCompatPreferenceActivity() {
      * {@inheritDoc}
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    override fun onBuildHeaders(target: List<PreferenceActivity.Header>) {
+    override fun onBuildHeaders(target: List<Header>) {
         loadHeadersFromResource(R.xml.pref_headers, target)
     }
 

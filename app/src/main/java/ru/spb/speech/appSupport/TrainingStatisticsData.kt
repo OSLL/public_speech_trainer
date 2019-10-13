@@ -517,7 +517,7 @@ class CountingNumberOfWordsParasites {
     }
 
     fun listOfParasiticWords(allRecognizedText: String, arrayWhereFind: Array<String>) : ArrayList<String> {
-        var parasiticWordsList = ArrayList<String>()
+        val parasiticWordsList = ArrayList<String>()
         val recText = allRecognizedText.toLowerCase()
         for (word in arrayWhereFind) {
             if (word in recText)

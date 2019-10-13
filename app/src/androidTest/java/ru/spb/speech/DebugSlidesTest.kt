@@ -2,10 +2,8 @@ package ru.spb.speech
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.InstrumentationRegistry.getTargetContext
-import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions
-import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.intent.rule.IntentsTestRule
 import android.support.test.espresso.matcher.ViewMatchers
@@ -13,8 +11,6 @@ import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.runner.AndroidJUnit4
 import android.support.test.uiautomator.UiDevice
 import android.support.test.uiautomator.UiSelector
-import android.util.Log
-import ru.spb.speech.database.SpeechDataBase
 import junit.framework.Assert.assertEquals
 import org.hamcrest.CoreMatchers.containsString
 import org.junit.After
@@ -22,6 +18,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import ru.spb.speech.database.SpeechDataBase
 
 @RunWith(AndroidJUnit4::class)
 class DebugSlidesTest : BaseInstrumentedTest() {
@@ -76,7 +73,7 @@ class DebugSlidesTest : BaseInstrumentedTest() {
 
 
         Thread.sleep(2000)
-        onView(withId(R.id.export)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+        onView(withId(R.id.export)).check(matches(withEffectiveVisibility(Visibility.GONE)))
         Thread.sleep(2000)
         uiDevice.pressBack()
         Thread.sleep(2000)

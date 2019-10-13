@@ -17,41 +17,6 @@ import ru.spb.speech.R
 import ru.spb.speech.appSupport.SlideInfo
 import ru.spb.speech.appSupport.toDefaultStringFormat
 
-class AllAudioStatisticsDialogFragment: DialogFragment() {
-
-    companion object {
-        private const val EXTRA_AUDIO_STATISTICS_LIST = "extra_audio_statistics_list"
-        val instance = {
-            list: List<SlideInfo> ->
-            AllAudioStatisticsDialogFragment().apply {
-                arguments = Bundle().apply { putParcelableArray(EXTRA_AUDIO_STATISTICS_LIST, list.toTypedArray()) }
-            }
-        }
-    }
-
-    private val statisticsList by lazy {
-        (arguments!!.getParcelableArray(EXTRA_AUDIO_STATISTICS_LIST) as Array<SlideInfo>).toList()
-    }
-
-    private val adapter by lazy { GroupAdapter<ViewHolder>() }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val v = inflater.inflate(R.layout.fragment_full_audio_statisctics, container, false)
-
-        for (s in statisticsList)
-            adapter.add(SlideInfoItem(s, ::getString))
-
-        v.recycler_full_stat.apply {
-            addItemDecoration(DividerItemDecoration(activity, LinearLayout.VERTICAL))
-            this.adapter = this@AllAudioStatisticsDialogFragment.adapter
-        }
-
-        v.close.setOnClickListener { dismiss() }
-
-        return v
-    }
-}
-
 class SlideInfoItem(private val slideInfo: SlideInfo,
                     private val getString: (id: Int) -> String): Item<ViewHolder>() {
 

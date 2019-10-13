@@ -6,16 +6,11 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import ru.spb.speech.ACTIVITY_CREATE_PRESENTATION_NAME
 import ru.spb.speech.APST_TAG
 import ru.spb.speech.R
 import ru.spb.speech.database.PresentationData
 import ru.spb.speech.database.SpeechDataBase
-import ru.spb.speech.database.helpers.PresentationDBHelper
 import ru.spb.speech.database.interfaces.PresentationDataDao
 import java.io.ByteArrayOutputStream
 

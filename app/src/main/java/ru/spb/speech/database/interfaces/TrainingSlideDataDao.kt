@@ -6,14 +6,8 @@ import ru.spb.speech.database.TrainingSlideData
 @Dao
 interface TrainingSlideDataDao {
 
-    @Query("SELECT * from trainingslidedata")
-    fun getAll(): List<TrainingSlideData>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(trainingsSlideData: TrainingSlideData)
-
-    @Query("DELETE from trainingslidedata")
-    fun deleteAll()
 
     @Query("DELETE FROM trainingslidedata WHERE id = :ID")
     fun deleteSlideWithId(ID: Int)

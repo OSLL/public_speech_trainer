@@ -5,13 +5,7 @@ import ru.spb.speech.database.PresentationData
 import ru.spb.speech.database.SpeechDataBase
 import ru.spb.speech.database.TrainingData
 
-class TrainingDBHelper {
-
-    private var context: Context
-
-    constructor(context: Context) {
-        this.context = context
-    }
+class TrainingDBHelper(private var context: Context) {
 
     fun addTrainingInDB(td: TrainingData, presentationData: PresentationData) {
         val presentationDataDao = SpeechDataBase.getInstance(context)?.PresentationDataDao()
@@ -43,7 +37,7 @@ class TrainingDBHelper {
         list.add(trainingDataPtr!!)
 
         while (trainingDataPtr?.nextTrainingId != null) {
-            trainingDataPtr = trainingDataDao?.getTrainingWithId(trainingDataPtr?.nextTrainingId!!)
+            trainingDataPtr = trainingDataDao?.getTrainingWithId(trainingDataPtr.nextTrainingId!!)
             list.add(trainingDataPtr!!)
         }
         return list

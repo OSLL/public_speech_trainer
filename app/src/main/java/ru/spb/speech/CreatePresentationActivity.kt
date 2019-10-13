@@ -38,7 +38,7 @@ class CreatePresentationActivity : AppCompatActivity() {
             val intent = Intent(ACTION_OPEN_DOCUMENT)
                     .setDataAndType(myUri, "application/pdf")
                     .addCategory(CATEGORY_OPENABLE)
-            startActivityForResult(Intent.createChooser(intent, getString(R.string.select_a_file)), resources.getInteger(R.integer.choose_file_requestCode))
+            startActivityForResult(createChooser(intent, getString(R.string.select_a_file)), resources.getInteger(R.integer.choose_file_requestCode))
         } else {
             val intent = Intent(this, EditPresentationActivity::class.java)
             intent.putExtra(getString(R.string.CURRENT_PRESENTATION_ID), checkForPresentationInDB(getString(R.string.deb_pres_name)))
@@ -93,7 +93,7 @@ class CreatePresentationActivity : AppCompatActivity() {
                 if (stringUri == getString(R.string.deb_pres_name) || stringUri == "hello_presentation.pdf")
                     newPresentation.debugFlag = 1
                 else
-                    contentResolver.takePersistableUriPermission(Uri.parse(stringUri), Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    contentResolver.takePersistableUriPermission(Uri.parse(stringUri), FLAG_GRANT_READ_URI_PERMISSION)
 
                 speechDataBase?.PresentationDataDao()?.insert(newPresentation)
                 currentPresID = speechDataBase?.PresentationDataDao()?.getPresentationDataWithUri(stringUri)?.id

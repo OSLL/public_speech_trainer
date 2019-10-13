@@ -106,7 +106,7 @@ class AboutActivityTest : BaseInstrumentedTest() {
     fun checkRepoLink() {
         Intents.init()
         val expectedIntent = allOf(hasAction(Intent.ACTION_VIEW),
-                hasData(Uri.parse(getTargetContext().getString(R.string.repositoryUrl))))
+                hasData(Uri.parse(getTargetContext().getString(repositoryUrl))))
         intending(expectedIntent).respondWith(Instrumentation.ActivityResult(0, null))
 
         openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)

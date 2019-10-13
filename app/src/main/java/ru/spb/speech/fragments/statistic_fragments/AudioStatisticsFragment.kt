@@ -2,7 +2,6 @@ package ru.spb.speech.fragments.statistic_fragments
 
 import android.annotation.SuppressLint
 import android.view.View
-import kotlinx.android.synthetic.main.fragment_audiostatistics.view.*
 import kotlinx.android.synthetic.main.item_slide_info.view.*
 import ru.spb.speech.R
 import ru.spb.speech.appSupport.toAllStatisticsInfo

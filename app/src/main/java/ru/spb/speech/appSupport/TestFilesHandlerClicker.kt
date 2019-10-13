@@ -4,7 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.os.Handler
 import ru.spb.speech.database.PresentationData
 
-class TestFilesHandlerClicker(private val presentationData: PresentationData,
+class TestFilesHandlerClicker(presentationData: PresentationData,
                               private val timeList: List<Int>) {
 
     val controllerActions = MutableLiveData<AudioAnalyzer.AudioAnalyzerState>()

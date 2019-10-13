@@ -27,7 +27,6 @@ import ru.spb.speech.appSupport.getFileName
 import java.io.IOException
 import ru.spb.speech.constants.AllowableExtension.PDF
 
-const val secondsInAMinute = 60
 const val valueWhenMissedIntent = -1
 
 class EditPresentationActivity : AppCompatActivity() {
@@ -90,7 +89,7 @@ class EditPresentationActivity : AppCompatActivity() {
                 else numberPicker1.value = defTime
             }
 
-            if (presentationData?.name!!.isNullOrEmpty()) {
+            if (presentationData?.name!!.isEmpty()) {
                 val temporaryPresentationName = getFileName(Uri.parse(presentationData!!.stringUri), contentResolver)
                 presentationName.setText(temporaryPresentationName.substring (0, temporaryPresentationName.indexOf(PDF.type)))
             }

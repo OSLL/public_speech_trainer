@@ -7,12 +7,11 @@ import android.util.Log
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.database.FirebaseDatabase
 import ru.spb.speech.BuildConfig
+import ru.spb.speech.appSupport.TrainingStatisticsData
 import ru.spb.speech.database.PresentationData
 import ru.spb.speech.database.SpeechDataBase
 import ru.spb.speech.database.helpers.TrainingDBHelper
 import ru.spb.speech.database.helpers.TrainingSlideDBHelper
-import ru.spb.speech.R
-import ru.spb.speech.appSupport.TrainingStatisticsData
 import ru.spb.speech.firebase.model.FullTrainingStatistic
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -29,11 +28,11 @@ class FirebaseHelper(private val context: Context) {
     private val trainingSlideDBHelper: TrainingSlideDBHelper = TrainingSlideDBHelper(context)
     private val db: SpeechDataBase = SpeechDataBase.getInstance(context)!!
 
-    suspend fun registerNewTester() {
+    fun registerNewTester() {
         FirebaseAnalytics.getInstance(context).setUserId(androidID)
     }
 
-    suspend fun uploadLastTraining(presentationData: PresentationData?) {
+    fun uploadLastTraining(presentationData: PresentationData?) {
         if (presentationData == null) return
 
         this.updatePresentationStatistic(getFullTrainingStatistic(presentationData), presentationData.id)
@@ -53,7 +52,7 @@ class FirebaseHelper(private val context: Context) {
         }
     }
 
-    suspend fun synchronizeAllData() {
+    fun synchronizeAllData() {
         for (presentation in db.PresentationDataDao().getAll()) {
             val trainings = trainingDBHelper.getAllTrainingsForPresentation(presentation)
                     ?: continue

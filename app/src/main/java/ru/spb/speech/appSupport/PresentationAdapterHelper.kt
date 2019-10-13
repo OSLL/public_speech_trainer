@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.AsyncTask
 import android.preference.PreferenceManager
 import android.support.v4.app.ActivityCompat.startActivityForResult
 import android.support.v4.content.ContextCompat.startActivity
@@ -15,13 +14,6 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.animation.AnimationUtils
 import android.widget.Toast
-import ru.spb.speech.EditPresentationActivity
-import ru.spb.speech.R
-import ru.spb.speech.TrainingActivity
-import ru.spb.speech.views.PresentationStartpageItemRow
-import ru.spb.speech.database.interfaces.PresentationDataDao
-import ru.spb.speech.database.SpeechDataBase
-import ru.spb.speech.APST_TAG
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -29,8 +21,15 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import ru.spb.speech.APST_TAG
+import ru.spb.speech.EditPresentationActivity
+import ru.spb.speech.R
+import ru.spb.speech.TrainingActivity
+import ru.spb.speech.database.SpeechDataBase
 import ru.spb.speech.database.helpers.PresentationDBHelper
+import ru.spb.speech.database.interfaces.PresentationDataDao
 import ru.spb.speech.measurementAutomation.RunningTraining
+import ru.spb.speech.views.PresentationStartpageItemRow
 import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.Socket
@@ -175,7 +174,7 @@ class PresentationAdapterHelper(private val rw: RecyclerView, private val adapte
     private fun runLayoutAnimation(recyclerView: RecyclerView) {
         val context: Context = recyclerView.context
         val controller =
-                AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_fall_down);
+                AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_fall_down)
         recyclerView.layoutAnimation = controller
         try {
             recyclerView.adapter?.notifyDataSetChanged()

@@ -70,8 +70,6 @@ class TrainingStatisticsActivity : AppCompatActivity() {
 
 
     private var recommendationString: String = ""
-    private val speechDataBase by lazy { SpeechDataBase.getInstance(this)!! }
-
 
     private lateinit var progressHelper: ProgressHelper
 
@@ -215,9 +213,9 @@ class TrainingStatisticsActivity : AppCompatActivity() {
 
         export.setOnClickListener {
             val trainingsFile: File?
-            val sdState = android.os.Environment.getExternalStorageState()
-            trainingsFile = if (sdState == android.os.Environment.MEDIA_MOUNTED) {
-                val sdDir = android.os.Environment.getExternalStorageDirectory()
+            val sdState = Environment.getExternalStorageState()
+            trainingsFile = if (sdState == Environment.MEDIA_MOUNTED) {
+                val sdDir = Environment.getExternalStorageDirectory()
                 File(sdDir, getString(R.string.training_statistics_directory))
             } else {
                 this.cacheDir
@@ -226,8 +224,8 @@ class TrainingStatisticsActivity : AppCompatActivity() {
                 trainingsFile.mkdir()
 
             val curTrainingFile: File?
-            curTrainingFile = if (sdState == android.os.Environment.MEDIA_MOUNTED) {
-                val sdDir = android.os.Environment.getExternalStorageDirectory()
+            curTrainingFile = if (sdState == Environment.MEDIA_MOUNTED) {
+                val sdDir = Environment.getExternalStorageDirectory()
                 File(sdDir, "${getString(R.string.training_statistics_directory)}/${trainingStatisticsData?.presName}")
             } else {
                 this.cacheDir
@@ -523,17 +521,6 @@ class TrainingStatisticsActivity : AppCompatActivity() {
 
     }
 
-    private fun getCase(n: Int? , case1: String, case2: String, case3: String): String {
-        if (n == null || n <= 0) {
-            return "undefined"
-        }
-
-        val titles = arrayOf("$n $case1","$n $case2","$n $case3")
-        val cases = arrayOf(2, 0, 1, 1, 1, 2)
-
-        return " " + titles[if (n % 100 in 5..19) 2 else cases[if (n % 10 < 5) n % 10 else 5]]
-    }
-
     @SuppressLint("UseSparseArrays")
     private fun getStringPresentationTimeLimit(t: Long?): String {
 
@@ -581,42 +568,4 @@ class TrainingStatisticsActivity : AppCompatActivity() {
         pie_chart.invalidate()
     }
 
-    private fun getTop10Words(text: String) : List<Pair<String, Int>> {
-        val dictionary = HashMap<String, Int>()
-
-        val iterator = BreakIterator.getWordInstance()
-        iterator.setText(text)
-
-        var endIndex = iterator.first()
-        while (BreakIterator.DONE != endIndex) {
-            val startIndex = endIndex
-            endIndex = iterator.next()
-            if (endIndex != BreakIterator.DONE && Character.isLetterOrDigit(text[startIndex])) {
-                val word = text.substring(startIndex, endIndex)
-                val count = dictionary[word] ?: 0
-                dictionary[word] = count + 1
-                wordCount++
-            }
-        }
-
-        val result = ArrayList<Pair<String, Int>>()
-        dictionary.onEach {
-            val position = getPosition(result, it.value)
-            if (position < 10)
-                result.add(position, it.toPair())
-            if (result.size > 10)
-                result.removeAt(10)
-        }
-        return result
-    }
-
-    private fun getPosition(list : List<Pair<String, Int>>, value : Int) : Int {
-        if (list.isEmpty())
-            return 0
-        for (i in list.indices) {
-            if (value > list[i].second)
-                return i
-        }
-        return list.size
-    }
 }

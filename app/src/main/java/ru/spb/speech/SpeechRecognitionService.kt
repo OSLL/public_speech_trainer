@@ -4,21 +4,17 @@ import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.getIntent
 import android.media.AudioManager
 import android.os.*
 import android.preference.PreferenceManager
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
-import android.support.test.InstrumentationRegistry
 import android.util.Log
 import java.lang.ref.WeakReference
-import android.content.SharedPreferences
 
 
-
-public class SpeechRecognitionService: Service() {
+class SpeechRecognitionService: Service() {
     protected lateinit var mAudioManager: AudioManager
     protected var mSpeechRecognizer: SpeechRecognizer? = null
     protected var mSpeechRecognizerIntent: Intent? = null
@@ -80,7 +76,7 @@ public class SpeechRecognitionService: Service() {
                         }
                     }
                     if (!target!!.mIsListening) {
-                        target!!.mSpeechRecognizer!!.startListening(target.mSpeechRecognizerIntent)
+                        target.mSpeechRecognizer!!.startListening(target.mSpeechRecognizerIntent)
                         target.mIsListening = true
                     }
                 }
@@ -92,7 +88,7 @@ public class SpeechRecognitionService: Service() {
                         mIsStreamSolo = false
                     }
                     target!!.mSpeechRecognizer!!.cancel()
-                    target!!.mIsListening = false
+                    target.mIsListening = false
                 }
             }
         }

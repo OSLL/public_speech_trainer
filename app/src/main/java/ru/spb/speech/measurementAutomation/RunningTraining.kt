@@ -13,23 +13,15 @@ import ru.spb.speech.database.SpeechDataBase
 import ru.spb.speech.database.helpers.PresentationDBHelper
 import ru.spb.speech.database.interfaces.PresentationDataDao
 
-class RunningTraining {
+class RunningTraining(private val context: Activity) {
 
     companion object {
        const val LOG = "test_folder_log"
     }
-    private val context: Activity
+
     private val presentationDataDao: PresentationDataDao
     private var presentationList: List<PresentationData>? = null
     private val timeList = arrayListOf<Int>()
-
-    constructor(context: Activity) {
-        this.context = context
-        presentationDataDao = SpeechDataBase.getInstance(context)?.PresentationDataDao()!!
-        presentationDataDao.deleteTestFolderPres()
-
-
-    }
 
     fun startTrainings(directoryFile: DocumentFile){
         findPdfPresentations(directoryFile)
@@ -115,5 +107,10 @@ class RunningTraining {
         presentationDataDao.updatePresentation(presentationData!!)
         val presF = PresentationDBHelper(context)
         presF.saveDefaultPresentationImageOnMainThread(presentationData!!.id!!)
+    }
+
+    init {
+        presentationDataDao = SpeechDataBase.getInstance(context)?.PresentationDataDao()!!
+        presentationDataDao.deleteTestFolderPres()
     }
 }

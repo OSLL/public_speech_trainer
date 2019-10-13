@@ -3,9 +3,7 @@ package ru.spb.speech.fragments.statistic_fragments
 import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.util.Log
-import android.view.*
-import ru.spb.speech.R
-import com.github.mikephil.charting.components.Legend
+import android.view.View
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
@@ -14,13 +12,10 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.LargeValueFormatter
 import kotlinx.android.synthetic.main.time_on_each_slide_chart_fragment.view.*
+import ru.spb.speech.R
 import ru.spb.speech.fragments.StatisticsFragment
 
 const val FRAGMENT_TIME_ON_EACH_SLIDE = ".FragmentTimeOnEachSlide"
-
-const val LOWER_RANGE_LIMIT = 0.9f
-const val UPPER_RANGE_LIMIT = 1.1f
-
 
 class TimeOnEachSlideFragment : StatisticsFragment() {
 

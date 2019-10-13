@@ -24,7 +24,7 @@ import ru.spb.speech.database.SpeechDataBase
 class CorrectWordCountTest : BaseInstrumentedTest(){
     lateinit var helper: TestHelper
     private lateinit var mDevice: UiDevice
-    private val tContext = InstrumentationRegistry.getTargetContext()
+    private val tContext = getTargetContext()
     private val db: SpeechDataBase = SpeechDataBase.getInstance(tContext)!!
 
     init {

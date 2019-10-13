@@ -80,7 +80,7 @@ class AdditionalCountdownTimerTest {
             }
 
             override fun getConstraints(): Matcher<View> {
-                return ViewMatchers.isAssignableFrom(NumberPicker::class.java)
+                return isAssignableFrom(NumberPicker::class.java)
             }
         }
     }

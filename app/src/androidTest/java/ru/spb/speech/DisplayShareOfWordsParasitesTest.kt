@@ -1,28 +1,22 @@
 package ru.spb.speech
 
-import android.preference.PreferenceManager
 import android.support.test.InstrumentationRegistry
-import android.support.test.InstrumentationRegistry.getTargetContext
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.*
+import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.support.test.uiautomator.UiDevice
 import android.support.test.uiautomator.UiSelector
-import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.containsString
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import ru.spb.speech.database.SpeechDataBase
 import java.lang.Thread.sleep
-import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
-import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.util.Log
-import kotlinx.android.synthetic.main.activity_training_statistics.*
-import org.hamcrest.CoreMatchers.containsString
-import org.junit.After
 
 
 @RunWith(AndroidJUnit4::class)

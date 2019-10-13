@@ -2,7 +2,6 @@ package ru.spb.speech
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.intent.rule.IntentsTestRule
-import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.assertThat
 import android.support.test.runner.AndroidJUnit4
 import android.support.test.uiautomator.UiDevice

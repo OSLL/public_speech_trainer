@@ -21,9 +21,6 @@ interface PresentationDataDao {
     @Query("SELECT * from presentationdata WHERE id = :ID LIMIT 1")
     fun getPresentationWithId(ID: Int): PresentationData?
 
-    @Query("SELECT * from presentationdata WHERE name = :NAME LIMIT 1")
-    fun getPresentationWithName(NAME: String): PresentationData?
-
     @Update
     fun updatePresentation(presentationData: PresentationData)
 

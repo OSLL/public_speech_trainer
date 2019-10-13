@@ -11,10 +11,6 @@ class ControlledActivityTestRule<T : Activity> : ActivityTestRule<T> {
 
     constructor(activityClass: Class<T>, initialTouchMode: Boolean, launchActivity: Boolean) : super(activityClass, initialTouchMode, launchActivity) {}
 
-    fun finish() {
-        finishActivity()
-    }
-
     fun relaunchActivity() {
         finishActivity()
         launchActivity()

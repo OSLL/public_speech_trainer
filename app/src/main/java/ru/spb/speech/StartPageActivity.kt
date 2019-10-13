@@ -18,16 +18,14 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import ru.spb.speech.database.interfaces.PresentationDataDao
-import ru.spb.speech.database.SpeechDataBase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_start_page.*
 import ru.spb.speech.appSupport.*
+import ru.spb.speech.database.SpeechDataBase
+import ru.spb.speech.database.interfaces.PresentationDataDao
 import ru.spb.speech.measurementAutomation.RunningTraining
-import ru.spb.speech.views.PresentationStartpageItemRow
 import java.io.File
-import java.lang.RuntimeException
 
 const val debugSpeechAudio = R.raw.assembler // Путь к файлу в raw,
 // который запускается в виде тестовой звуковой дорожки.
@@ -36,8 +34,6 @@ const val SHARED_PREFERENCES_FILE_NAME = "ru.spb.speech.prefs"
 
 class StartPageActivity : AppCompatActivity(), UpdateAdapterListener {
     companion object {
-        private const val testPresentationFolderFlag = false
-
         private const val OPEN_FOLDER_REQ_CODE = 133
     }
     private var testFolderRunner: RunningTraining? = null
