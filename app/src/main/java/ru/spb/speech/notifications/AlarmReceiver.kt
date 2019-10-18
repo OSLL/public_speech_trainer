@@ -8,7 +8,7 @@ import android.support.annotation.RequiresApi
 import android.util.Log
 
 class AlarmReceiver: BroadcastReceiver() {
-    val NOTIFICATIONS_TAG = "NOTIFICATIONS"
+    private val NOTIFICATIONS_TAG = "NOTIFICATIONS"
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onReceive(context: Context?, intent: Intent?) {

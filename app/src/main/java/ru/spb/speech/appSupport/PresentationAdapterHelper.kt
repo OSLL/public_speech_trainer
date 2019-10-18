@@ -41,10 +41,9 @@ const val timeLimit = 2500
 class PresentationAdapterHelper(private val rw: RecyclerView, private val adapter: GroupAdapter<ViewHolder>, private val context: Context) {
     private val presentationDataDao: PresentationDataDao = SpeechDataBase.getInstance(context)!!.PresentationDataDao()
     private var updateListener: UpdateAdapterListener? = null
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     init {
-        sharedPreferences =  PreferenceManager.getDefaultSharedPreferences(context)
 
         adapter.setOnItemClickListener { item: Item<ViewHolder>, _ ->
             startTrainingDialog(item)
@@ -126,7 +125,7 @@ class PresentationAdapterHelper(private val rw: RecyclerView, private val adapte
         runLayoutAnimation(rw)
     }
 
-    fun addItemInAdapter(item: PresentationStartpageItemRow, imageBLOB: ByteArray?) {
+    private fun addItemInAdapter(item: PresentationStartpageItemRow, imageBLOB: ByteArray?) {
         adapter.add(item)
         loadItemAsync(item, imageBLOB)
     }

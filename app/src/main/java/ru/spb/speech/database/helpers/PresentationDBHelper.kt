@@ -2,12 +2,11 @@ package ru.spb.speech.database.helpers
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.util.Log
-import ru.spb.speech.appSupport.PdfToBitmap
 import ru.spb.speech.R
-import ru.spb.speech.database.interfaces.PresentationDataDao
+import ru.spb.speech.appSupport.PdfToBitmap
 import ru.spb.speech.database.SpeechDataBase
+import ru.spb.speech.database.interfaces.PresentationDataDao
 import java.io.ByteArrayOutputStream
 
 class PresentationDBHelper(private val ctx: Context) {
@@ -15,10 +14,9 @@ class PresentationDBHelper(private val ctx: Context) {
     private val pdfToBitmap: PdfToBitmap
     private val defaultPictureSize: Int
     private val defaultPictureQuality: Int
-    private val db: SpeechDataBase
+    private val db: SpeechDataBase = SpeechDataBase.getInstance(ctx)!!
 
     init {
-        db = SpeechDataBase.getInstance(ctx)!!
         presentationDataDao = db.PresentationDataDao()
         pdfToBitmap = PdfToBitmap(ctx)
         defaultPictureSize = ctx.resources.getInteger(R.integer.defaultPictureSize)

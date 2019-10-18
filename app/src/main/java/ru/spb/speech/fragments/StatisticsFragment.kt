@@ -11,7 +11,6 @@ import ru.spb.speech.database.helpers.TrainingSlideDBHelper
 abstract class StatisticsFragment: Fragment() {
 
     companion object {
-        protected const val LOG = "statistics_fragment_log"
         private const val EXTRA_AUDIO_STATISTICS_TRAINING_ID = "extra_statistics_presentation_id"
         val instance = {
             fragment: StatisticsFragment, presentationID: Int ->

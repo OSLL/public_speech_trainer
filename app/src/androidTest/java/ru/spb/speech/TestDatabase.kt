@@ -18,14 +18,13 @@ import org.junit.runner.RunWith
 class TestDatabase : BaseInstrumentedTest() {
     @Rule
     @JvmField
-    var mControllerTestRule = ControlledActivityTestRule<StartPageActivity>(StartPageActivity::class.java)
+    var mControllerTestRule = ControlledActivityTestRule(StartPageActivity::class.java)
 
     lateinit var helper: TestHelper
-    private val db: SpeechDataBase
+    private val db: SpeechDataBase = SpeechDataBase.getInstance(getTargetContext())!!
     private val startDbSize: Float
 
     init {
-        db = SpeechDataBase.getInstance(getTargetContext())!!
         db.PresentationDataDao().deleteTestPresentations()
         startDbSize = db.PresentationDataDao().getAll().size.toFloat()
     }

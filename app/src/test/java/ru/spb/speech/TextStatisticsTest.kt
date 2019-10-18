@@ -9,7 +9,7 @@ import ru.spb.speech.vocabulary.TextHelper
 
 class TextStatisticsTest {
     private val textHelper = TextHelper(emptyArray())
-    lateinit var presentationEntries: HashMap<Int, Float>
+    private lateinit var presentationEntries: HashMap<Int, Float>
     private val optimalSpeed = 120
 
     @Before

@@ -7,7 +7,7 @@ import java.util.regex.Pattern
 class TextHelper(private val conjAndPrep: Array<String>) {
     private val stemmer = StemmerPorterRU()
 
-    fun removeConjunctionsAndPrepositionsFromText(sourceText: String): String {
+    private fun removeConjunctionsAndPrepositionsFromText(sourceText: String): String {
         var text = sourceText.toLowerCase()
 
         for (word in conjAndPrep) {
@@ -49,7 +49,7 @@ class TextHelper(private val conjAndPrep: Array<String>) {
             endIndex = iterator.next()
             if (endIndex != BreakIterator.DONE && Character.isLetterOrDigit(text[startIndex])) {
                 val word = text.substring(startIndex, endIndex)
-                val stemmedWord = stemmer.stem(word)
+                val stemmedWord = stemmer.stem(word).toString()
                 val count = dictionary[stemmedWord] ?: 0
                 val original = originals[stemmedWord] ?: ""
                 dictionary[stemmedWord] = count + 1

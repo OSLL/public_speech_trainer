@@ -26,8 +26,8 @@ class NotificationsHelper(private val context: Context) {
     private val FINISHED_TRAININGS = 5
 
     companion object {
-        val HOUR_FOR_NOTIFICATION = 20
-        val MINUTES_FOR_NOTIFICATION = 30
+        const val HOUR_FOR_NOTIFICATION = 20
+        const val MINUTES_FOR_NOTIFICATION = 30
     }
 
     init {

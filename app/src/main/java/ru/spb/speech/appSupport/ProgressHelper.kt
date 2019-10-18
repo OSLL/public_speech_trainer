@@ -8,12 +8,8 @@ import ru.spb.speech.R
 class ProgressHelper(ctx: Context, rootView: FrameLayout, subviews: List<View>) {
 
     private var root: FrameLayout = rootView
-    private var progressView: View
+    private var progressView: View = View.inflate(ctx, R.layout.progress_view, null)
     private var subviewList: List<View> = subviews
-
-    init {
-        progressView = View.inflate(ctx, R.layout.progress_view, null)
-    }
 
     fun show() {
         for (v in subviewList) {

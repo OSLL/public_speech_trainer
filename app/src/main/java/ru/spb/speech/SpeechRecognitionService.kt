@@ -15,13 +15,14 @@ import java.lang.ref.WeakReference
 
 
 class SpeechRecognitionService: Service() {
-    protected lateinit var mAudioManager: AudioManager
-    protected var mSpeechRecognizer: SpeechRecognizer? = null
-    protected var mSpeechRecognizerIntent: Intent? = null
-    protected val mServerMessenger = Messenger(IncomingHandler(this@SpeechRecognitionService))
+    private lateinit var mAudioManager: AudioManager
+    private var mSpeechRecognizer: SpeechRecognizer? = null
+    private var mSpeechRecognizerIntent: Intent? = null
+    private val mServerMessenger = Messenger(IncomingHandler(this@SpeechRecognitionService))
 
-    protected var mIsListening: Boolean = false
-    @Volatile protected var mIsCountDownOn: Boolean = false
+    private var mIsListening: Boolean = false
+    @Volatile
+    private var mIsCountDownOn: Boolean = false
     private var mIsStreamSolo: Boolean = false
 
     private var isAudioMode = false
@@ -55,7 +56,7 @@ class SpeechRecognitionService: Service() {
     }
 
     @SuppressLint("HandlerLeak")
-    protected inner class IncomingHandler internal constructor(target: SpeechRecognitionService) : Handler() {
+    private inner class IncomingHandler internal constructor(target: SpeechRecognitionService) : Handler() {
         private val mtarget: WeakReference<SpeechRecognitionService> = WeakReference(target)
 
 
@@ -95,7 +96,7 @@ class SpeechRecognitionService: Service() {
     }
 
     // Count down timer for Jelly Bean work around
-    protected var mNoSpeechCountDown: CountDownTimer = object : CountDownTimer(5000, 500) {
+    private var mNoSpeechCountDown: CountDownTimer = object : CountDownTimer(5000, 500) {
 
         override fun onTick(millisUntilFinished: Long) {
             if (mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) > 0 && !isAudioMode)
@@ -135,7 +136,7 @@ class SpeechRecognitionService: Service() {
 
     }
 
-    protected inner class SpeechRecognitionListener : RecognitionListener {
+    private inner class SpeechRecognitionListener : RecognitionListener {
 
         override fun onBeginningOfSpeech() {
             if (mIsCountDownOn) {

@@ -24,7 +24,7 @@ import org.junit.runner.RunWith
 class RecommendationActivityTest : BaseInstrumentedTest() {
 
     lateinit var helper: TestHelper
-    lateinit var uiDevice: UiDevice
+    private lateinit var uiDevice: UiDevice
 
     @Rule
     @JvmField

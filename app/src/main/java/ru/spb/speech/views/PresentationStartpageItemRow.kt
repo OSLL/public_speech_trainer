@@ -24,10 +24,10 @@ class PresentationStartpageItemRow(private var presentation: PresentationData, p
 
     var presentationId: Int? = null
     var presentationName: String? = null
-    var presentationTimeLimit: Long? = null
+    private var presentationTimeLimit: Long? = null
 
     var presentationUri: String? = null
-    var presentationDate: String? = null
+    private var presentationDate: String? = null
 
 
     override fun getLayout(): Int {

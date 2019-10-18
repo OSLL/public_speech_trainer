@@ -13,7 +13,6 @@
     <dimen name="font_size_20">20px</dimen>
     <dimen name="font_size_16">16px</dimen>
     <dimen name="font_size_17">17px</dimen>
-    <dimen name="font_size_14">14px</dimen>
 
     <dimen name="x_indent_multiplier_6_5">6.5px</dimen>
     <dimen name="x_indent_multiplier_20">20px</dimen>
@@ -23,7 +22,6 @@
     <dimen name="y_indent_multiplier_30">30px</dimen>
     <dimen name="y_indent_multiplier_25">25px</dimen>
     <dimen name="y_indent_multiplier_20">20px</dimen>
-    <dimen name="y_indent_multiplier_40">40px</dimen>
     <dimen name="y_indent_multiplier_43">43px</dimen>
     <dimen name="y_indent_multiplier_48">48px</dimen>
     <dimen name="y_indent_multiplier_66">66px</dimen>
@@ -37,7 +35,6 @@
     <dimen name="y_indent_multiplier_158">158px</dimen>
     <dimen name="y_indent_multiplier_163">163px</dimen>
     <dimen name="y_indent_multiplier_186">186px</dimen>
-    <dimen name="y_indent_multiplier_200">200px</dimen>
     <dimen name="y_indent_multiplier_209">209px</dimen>
     <dimen name="y_indent_multiplier_232">232px</dimen>
     <dimen name="y_indent_multiplier_255">255px</dimen>

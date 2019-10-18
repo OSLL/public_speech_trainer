@@ -13,10 +13,8 @@
     <color name="whiteColor">#FFFFFF</color>
 
     <!-- Time on each slide -->
-    <color name="timeOncEachSlideChartColor">#8cb8ff</color>
     <color name="inTheAverageRange">#64dd17</color>
     <color name="fasterThanAverageRange">#d50000</color>
-    <color name="slowerThanAverageRange">#ffff00</color>
 
     <color name="purple">#AE9C27B0</color>
     <color name="orange">#FF9800</color>

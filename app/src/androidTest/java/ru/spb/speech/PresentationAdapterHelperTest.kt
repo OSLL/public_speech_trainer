@@ -18,7 +18,7 @@ class PresentationAdapterHelperTest : BaseInstrumentedTest() {
     var activityTestRule = ActivityTestRule<StartPageActivity>(StartPageActivity::class.java)
 
     lateinit var helper: TestHelper
-    lateinit var uiDevice: UiDevice
+    private lateinit var uiDevice: UiDevice
 
     @Before
     fun enableDebugMode() {

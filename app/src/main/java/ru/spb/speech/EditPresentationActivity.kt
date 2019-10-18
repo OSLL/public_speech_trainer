@@ -198,7 +198,4 @@ class EditPresentationActivity : AppCompatActivity() {
         super.onResume()
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
 }

@@ -72,7 +72,7 @@ class TestHelper(private val activity: Activity) {
 
         Espresso.onView(ViewMatchers.withId(R.id.addBtn)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.presentationName)).perform(ViewActions.clearText(), ViewActions.typeText(name), ViewActions.closeSoftKeyboard())
-        if (notifications == true)
+        if (notifications)
             Espresso.onView(ViewMatchers.withId(R.id.notifications)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.addPresentation)).perform(ViewActions.click())
 

@@ -19,7 +19,7 @@ class RunningTraining(private val context: Activity) {
        const val LOG = "test_folder_log"
     }
 
-    private val presentationDataDao: PresentationDataDao
+    private val presentationDataDao: PresentationDataDao = SpeechDataBase.getInstance(context)?.PresentationDataDao()!!
     private var presentationList: List<PresentationData>? = null
     private val timeList = arrayListOf<Int>()
 
@@ -110,7 +110,6 @@ class RunningTraining(private val context: Activity) {
     }
 
     init {
-        presentationDataDao = SpeechDataBase.getInstance(context)?.PresentationDataDao()!!
         presentationDataDao.deleteTestFolderPres()
     }
 }

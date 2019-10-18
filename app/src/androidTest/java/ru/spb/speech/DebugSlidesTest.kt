@@ -6,7 +6,6 @@ import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.intent.rule.IntentsTestRule
-import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.runner.AndroidJUnit4
 import android.support.test.uiautomator.UiDevice
@@ -27,7 +26,7 @@ class DebugSlidesTest : BaseInstrumentedTest() {
     var mIntentsTestRule = IntentsTestRule<StartPageActivity>(StartPageActivity::class.java)
 
     lateinit var helper: TestHelper
-    lateinit var uiDevice: UiDevice
+    private lateinit var uiDevice: UiDevice
 
     @Before
     fun enableDebugMode() {

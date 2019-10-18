@@ -123,8 +123,7 @@ class StartPageActivity : AppCompatActivity(), UpdateAdapterListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val id = item?.itemId
-        when (id) {
+        when (item?.itemId) {
             R.id.action_settings -> {
                 val intent = Intent(this, SettingsActivity::class.java)
                 startActivity(intent)
@@ -153,7 +152,7 @@ class StartPageActivity : AppCompatActivity(), UpdateAdapterListener {
     }
 
 
-    fun checkPermissions(): Boolean {
+    private fun checkPermissions(): Boolean {
         val permissions = ArrayList<String>()
         permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -167,7 +166,7 @@ class StartPageActivity : AppCompatActivity(), UpdateAdapterListener {
                 listPermissionsNeeded.add(p)
             }
         }
-        if (!listPermissionsNeeded.isEmpty()) {
+        if (listPermissionsNeeded.isNotEmpty()) {
             ActivityCompat.requestPermissions(this, listPermissionsNeeded.toTypedArray(), 100)
             return false
         }

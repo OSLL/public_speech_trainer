@@ -19,7 +19,7 @@ class TrainingStatisticsData (myContext: Context, presentationData: Presentation
 
     private val context = myContext
     private val presData = presentationData
-    val trainData = trainingData
+    private val trainData = trainingData
 
     private var trainingSlideDBHelper: TrainingSlideDBHelper? = TrainingSlideDBHelper(context)
     private var trainingDBHelper = TrainingDBHelper(context)
@@ -67,7 +67,7 @@ class TrainingStatisticsData (myContext: Context, presentationData: Presentation
             return curTrTime
         }
     //Суммарная длительность пауз:
-    val currentTrainingPauseTime: Double
+    private val currentTrainingPauseTime: Double
         get() {
             var curTrPauseTime = 0.0
             if (trainingSlidesList != null) {
@@ -423,7 +423,7 @@ class TrainingStatisticsData (myContext: Context, presentationData: Presentation
     private fun calculateX(x0ReportTimeLimit: Float) : Float{
         val dxDiffBtwTrainTimeAndLim: Float = if (currentTrainingTime > x0ReportTimeLimit*3){
             x0ReportTimeLimit
-        } else Math.abs(currentTrainingTime - x0ReportTimeLimit)
+        } else abs(currentTrainingTime - x0ReportTimeLimit)
         return context.resources.getDimension(R.dimen.unit_float) - (dxDiffBtwTrainTimeAndLim/x0ReportTimeLimit)
     }
 
@@ -450,15 +450,15 @@ class TrainingStatisticsData (myContext: Context, presentationData: Presentation
         averSpeed/=speedList.size
         curAverTime/=timeList.size
         for (i in speedList){
-            dySpeechVelDispersion += Math.pow((i - averSpeed).toDouble(), context.resources.getDimension(R.dimen.quadrant_degree_float).toDouble()).toFloat()
+            dySpeechVelDispersion += (i - averSpeed).toDouble().pow(context.resources.getDimension(R.dimen.quadrant_degree_float).toDouble()).toFloat()
         }
 
         dySpeechVelDispersion /= speedList.size
 
-        if (speedList.size != 0) {
-            return context.resources.getDimension(R.dimen.unit_float) / (sqrt(dySpeechVelDispersion) + context.resources.getDimension(R.dimen.unit_float))
+        return if (speedList.size != 0) {
+            context.resources.getDimension(R.dimen.unit_float) / (sqrt(dySpeechVelDispersion) + context.resources.getDimension(R.dimen.unit_float))
         }
-        else return 0F
+        else 0F
 
     }
 

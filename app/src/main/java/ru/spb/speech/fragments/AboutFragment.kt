@@ -11,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import ru.spb.speech.R
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 class AboutFragment: Fragment(), View.OnTouchListener {
 
@@ -58,5 +60,5 @@ class AboutFragment: Fragment(), View.OnTouchListener {
     }
 
     private fun isClick(x1: Float, y1: Float, x2: Float, y2: Float): Boolean
-            = Math.sqrt(Math.pow((x1 - x2).toDouble(), 2.0) + Math.pow((y1 - y2).toDouble(), 2.0)) < distanceLimit
+            = sqrt((x1 - x2).toDouble().pow(2.0) + (y1 - y2).toDouble().pow(2.0)) < distanceLimit
 }

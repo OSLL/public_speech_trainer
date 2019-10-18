@@ -2,31 +2,31 @@ package ru.spb.speech
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.action.ViewActions.*
+import android.support.test.espresso.UiController
+import android.support.test.espresso.ViewAction
+import android.support.test.espresso.action.ViewActions.click
+import android.support.test.espresso.action.ViewActions.replaceText
+import android.support.test.espresso.assertion.ViewAssertions.matches
+import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.support.test.uiautomator.UiDevice
 import android.support.test.uiautomator.UiSelector
+import android.view.View
 import android.widget.NumberPicker
+import org.hamcrest.Matcher
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.lang.Thread.sleep
-import android.support.test.espresso.matcher.ViewMatchers
-import android.support.test.espresso.UiController
-import android.support.test.espresso.ViewAction
-import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.matcher.ViewMatchers.*
-import android.view.View
-import org.hamcrest.Matcher
-import org.junit.After
 
 
 @RunWith(AndroidJUnit4::class)
 class AdditionalCountdownTimerTest {
     lateinit var helper: TestHelper
-    lateinit var mDevice: UiDevice
+    private lateinit var mDevice: UiDevice
 
     @Before
     fun before() {

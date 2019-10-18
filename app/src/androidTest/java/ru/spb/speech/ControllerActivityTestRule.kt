@@ -5,18 +5,14 @@ import android.app.Activity
 
 
 class ControlledActivityTestRule<T : Activity> : ActivityTestRule<T> {
-    constructor(activityClass: Class<T>) : super(activityClass, false) {}
-
-    constructor(activityClass: Class<T>, initialTouchMode: Boolean) : super(activityClass, initialTouchMode, true) {}
-
-    constructor(activityClass: Class<T>, initialTouchMode: Boolean, launchActivity: Boolean) : super(activityClass, initialTouchMode, launchActivity) {}
+    constructor(activityClass: Class<T>) : super(activityClass, false)
 
     fun relaunchActivity() {
         finishActivity()
         launchActivity()
     }
 
-    fun launchActivity() {
+    private fun launchActivity() {
         launchActivity(activityIntent)
     }
 }

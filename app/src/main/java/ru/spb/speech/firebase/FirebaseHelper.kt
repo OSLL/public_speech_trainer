@@ -117,10 +117,10 @@ class FirebaseHelper(private val context: Context) {
     }
 
     private fun checkBuild() : String {
-        if(BuildConfig.DEBUG){
-            return "/testers/debug"
+        return if(BuildConfig.DEBUG){
+            "/testers/debug"
         }
-        else return "/testers/release"
+        else "/testers/release"
     }
 
     fun Float.format(digits: Int) = java.lang.String.format("%.${digits}f", this)!!

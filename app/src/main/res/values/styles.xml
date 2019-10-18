@@ -8,12 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.Fullscreen">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
-    </style>
-
     <style name="StatisticsTextViewStyle">
         <item name="android:textStyle">bold</item>
         <item name="android:alpha">0.75</item>

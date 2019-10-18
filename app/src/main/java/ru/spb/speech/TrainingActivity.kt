@@ -82,7 +82,7 @@ class TrainingActivity : AppCompatActivity() {
 
     private var nIndex: Int = -1
 
-    var isAudio: Boolean? = null
+    private var isAudio: Boolean? = null
 
     private lateinit var progressHelper: ProgressHelper
 
@@ -293,7 +293,7 @@ class TrainingActivity : AppCompatActivity() {
                     dialog.show()
                 }, 2500)
             } catch (e: Exception) {
-                Log.d(SPEECH_RECOGNITION_SERVICE_DEBUGGING + ACTIVITY_TRAINING_NAME, "onFinish handler error: " + e.toString())
+                Log.d(SPEECH_RECOGNITION_SERVICE_DEBUGGING + ACTIVITY_TRAINING_NAME, "onFinish handler error: $e")
             }
             isTrainingFinish = true
         }
@@ -423,14 +423,14 @@ class TrainingActivity : AppCompatActivity() {
                 if (list == null) {
                     Log.d(APST_TAG + ACTIVITY_TRAINING_NAME, "train act: slides == null")
                 } else {
-                    for (i in 0..(list.size - 1)) {
+                    for (i in 0 until list.size) {
                         Log.d(APST_TAG + ACTIVITY_TRAINING_NAME, "train act, L $i : ${list[i]}")
                     }
                 }
 
 
             } catch (e: Exception) {
-                Log.d(SPEECH_RECOGNITION_SERVICE_DEBUGGING, "(stop service) put presentation entry error: " + e.toString())
+                Log.d(SPEECH_RECOGNITION_SERVICE_DEBUGGING, "(stop service) put presentation entry error: $e")
             }
 
             allRecognizedText += curText
@@ -489,7 +489,7 @@ class TrainingActivity : AppCompatActivity() {
                 bindService(mIntent, mConnection, Service.BIND_AUTO_CREATE)
                 executeFlag = true
             } catch (e: Exception) {
-                Log.d(SPEECH_RECOGNITION_SERVICE_DEBUGGING + ACTIVITY_TRAINING_NAME, "onPreExecute Async Task error: " + e.toString())
+                Log.d(SPEECH_RECOGNITION_SERVICE_DEBUGGING + ACTIVITY_TRAINING_NAME, "onPreExecute Async Task error: $e")
             }
         }
 
@@ -508,7 +508,7 @@ class TrainingActivity : AppCompatActivity() {
             try {
                 curText = speechRecognitionService!!.getMESSAGE()
             } catch (e: Exception) {
-                Log.d(SPEECH_RECOGNITION_SERVICE_DEBUGGING + ACTIVITY_TRAINING_NAME, "onProgressUpdate Async Task error: " + e.toString())
+                Log.d(SPEECH_RECOGNITION_SERVICE_DEBUGGING + ACTIVITY_TRAINING_NAME, "onProgressUpdate Async Task error: $e")
             }
         }
 

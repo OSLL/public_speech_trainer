@@ -23,15 +23,15 @@ import java.util.*
 
 @RunWith(AndroidJUnit4::class)
 class NotificationsTest: BaseInstrumentedTest() {
-    val TIMEOUT = 2500L
+    private val TIMEOUT = 2500L
 
     @Rule
     @JvmField
     var activityTestRule = ActivityTestRule<StartPageActivity>(StartPageActivity::class.java)
 
-    lateinit var notificationsHelper: NotificationsHelper
-    lateinit var testHelper: TestHelper
-    lateinit var device: UiDevice
+    private lateinit var notificationsHelper: NotificationsHelper
+    private lateinit var testHelper: TestHelper
+    private lateinit var device: UiDevice
 
     @Before
     fun before() {

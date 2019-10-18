@@ -13,30 +13,33 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import ru.spb.speech.database.helpers.TrainingSlideDBHelper
-import ru.spb.speech.TrainingHistoryActivity.Companion.launchedFromHistoryActivityFlag
-import ru.spb.speech.vocabulary.TextHelper
-import ru.spb.speech.database.interfaces.PresentationDataDao
-import ru.spb.speech.database.PresentationData
-import ru.spb.speech.database.SpeechDataBase
-import ru.spb.speech.database.TrainingData
 import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.IValueFormatter
 import kotlinx.android.synthetic.main.activity_training_statistics.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import ru.spb.speech.TrainingHistoryActivity.Companion.launchedFromHistoryActivityFlag
+import ru.spb.speech.appSupport.*
+import ru.spb.speech.database.PresentationData
+import ru.spb.speech.database.SpeechDataBase
+import ru.spb.speech.database.TrainingData
+import ru.spb.speech.database.helpers.TrainingSlideDBHelper
+import ru.spb.speech.database.interfaces.PresentationDataDao
 import ru.spb.speech.fragments.statistic_fragments.AudioStatisticsFragment
 import ru.spb.speech.fragments.statistic_fragments.SpeedStatisticsFragment
 import ru.spb.speech.fragments.statistic_fragments.TimeOnEachSlideFragment
-import java.io.*
-import java.text.BreakIterator
+import ru.spb.speech.vocabulary.TextHelper
+import java.io.File
+import java.io.FileOutputStream
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 import kotlin.math.abs
-import ru.spb.speech.appSupport.*
 
 
 var url = ""
@@ -62,7 +65,6 @@ class TrainingStatisticsActivity : AppCompatActivity() {
 
     private var currentTrainingTime: Long = 0
 
-    private var wordCount: Int = 0
     private val activityRequestCode = 101
 
     private var averageTimePerSlide: Double = 0.0
@@ -73,7 +75,7 @@ class TrainingStatisticsActivity : AppCompatActivity() {
 
     private lateinit var progressHelper: ProgressHelper
 
-    var trainingStatisticsData: TrainingStatisticsData? = null
+    private var trainingStatisticsData: TrainingStatisticsData? = null
 
     @SuppressLint("LongLogTag", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -132,11 +134,10 @@ class TrainingStatisticsActivity : AppCompatActivity() {
         var numbersOfSlidesWithError = ""
 
         if (abs(averageTimePerSlide - currentPresentationTimePerSlide) > trainingStatisticsData?.timePerSlideError!!){
-            if (averageTimePerSlide > currentPresentationTimePerSlide){
-                recommendationString += getString(R.string.recommendation_speed_with_error, "понизить")
-            }
-            else{
-                recommendationString += getString(R.string.recommendation_speed_with_error, "повысить")
+            recommendationString += if (averageTimePerSlide > currentPresentationTimePerSlide){
+                getString(R.string.recommendation_speed_with_error, "понизить")
+            } else{
+                getString(R.string.recommendation_speed_with_error, "повысить")
             }
         }
         else {
