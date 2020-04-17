@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.activity_start_page.*
 import ru.spb.speech.appSupport.*
 import ru.spb.speech.measurementAutomation.RunningTraining
 import java.io.File
+import kotlin.collections.ArrayList
 
 const val debugSpeechAudio = R.raw.assembler // Путь к файлу в raw,
 // который запускается в виде тестовой звуковой дорожки.
@@ -100,6 +101,12 @@ class StartPageActivity : AppCompatActivity(), UpdateAdapterListener {
             val intent = Intent(this, CreatePresentationActivity::class.java)
             startActivity(intent)
         }
+
+        val driveFolderId = PreferenceManager
+                .getDefaultSharedPreferences(this)
+                .getString(getString(R.string.drive_folder_key), "")
+        if (driveFolderId != null && driveFolderId != "")
+            GoogleDriveHelper.getInstance().requestSignIn(this)
     }
 
     override fun onStart() {
@@ -213,6 +220,10 @@ class StartPageActivity : AppCompatActivity(), UpdateAdapterListener {
                     val selectedFile = data?.data
                     Log.d(RunningTraining.LOG, data?.data?.toString())
                     testFolderRunner?.startTrainings(DocumentFile.fromTreeUri(this, selectedFile!!)!!)
+                }
+
+                GoogleDriveHelper.REQUEST_CODE_SIGN_IN -> {
+                    GoogleDriveHelper.getInstance().heldSignInResult(this, data)
                 }
             }
         }
