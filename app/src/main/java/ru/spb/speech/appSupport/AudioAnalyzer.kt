@@ -256,6 +256,7 @@ class AudioAnalyzer(private val activity: Activity, controller: MutableLiveData<
 
             logStatistics()
             saveFile(byteArrayOutputStream)
+            GoogleDriveHelper.getInstance().saveFileToDrive(activity, byteArrayOutputStream)
         }
     }
 
